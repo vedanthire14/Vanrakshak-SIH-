@@ -7,7 +7,7 @@ Application of Image Analytics for Tree enumeration for diversion of Forest Land
 
 # Description
 When forest land needs to be diverted for developmental projects, it is crucial to have an accurate understanding of the tree population within the affected area. Traditional methods of tree enumeration, such as manual surveys or ground-based assessments, can be time-consuming, expensive, and prone to errors.
-To address these challenges, the challenge is to develop an image analytics solution that automates the tree enumeration process using satellite imagery or aerial photographs, or any other means (using section view).. The proposed solution should address the following key aspects: 
+To address these challenges, the challenge is to develop an image analytics solution that automates the tree enumeration process using satellite imagery or aerial photographs, or any other means (using section view). The proposed solution should address the following key aspects: 
 
 •	Image Data Analysis: 
 Develop a computer vision algorithm that can analyze satellite imagery or aerial photographs to detect and identify trees within the designated forest areas accurately. The algorithm should account for variations in tree species, sizes, and environmental conditions to ensure reliable results. 
