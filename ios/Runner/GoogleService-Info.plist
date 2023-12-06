@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCfPMivfHfbdGwg3rPhH7u5LognRLILk8o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>867516387230</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.vanrakshak</string>
+	<key>PROJECT_ID</key>
+	<string>vanrakshak-1db86</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vanrakshak-1db86.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:867516387230:ios:9a3d5cf8a1b0638b45908f</string>
+</dict>
+</plist>
