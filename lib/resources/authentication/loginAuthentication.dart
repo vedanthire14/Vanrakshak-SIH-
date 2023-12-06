@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously, file_names
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vanrakshak/screens/mainScreens/mainScreen.dart';
@@ -36,8 +35,8 @@ class LoginAuthorization with ChangeNotifier {
             .then((value) async {
           loading = false;
           notifyListeners();
-          await Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => const MainScreen()));
+          await Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const MainScreen()));
           return null;
         });
       } on FirebaseAuthException catch (e) {
