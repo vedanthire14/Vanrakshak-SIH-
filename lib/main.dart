@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vanrakshak/resources/authentication/loginAuthentication.dart';
 import 'package:vanrakshak/resources/authentication/signupAuthentication.dart';
+import 'package:vanrakshak/resources/mainScreenSetup/mainscreendata.dart';
 import 'package:vanrakshak/screens/introSlider/introSlider.dart';
 import 'package:vanrakshak/screens/mainScreens/mainScreen.dart';
 import 'firebase_options.dart';
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => LoginAuthorization(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => MainScreenSetup(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -38,7 +42,7 @@ class MyApp extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, userSnp) {
               if (userSnp.hasData) {
-                return const MainScreen();
+                return MainScreen();
               }
               return MyLiquidSwipe();
             },

@@ -40,6 +40,8 @@ dependencies:
   firebase_auth: ^4.15.0
   cloud_firestore: ^4.13.3
   feature_discovery: ^0.14.1
+  dotted_border: ^2.1.0
+  uuid: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +74,7 @@ flutter:
     - assets/introScreen/
     - assets/authScreen/
     - assets/main/
+    - assets/project/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

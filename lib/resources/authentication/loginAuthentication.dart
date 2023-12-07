@@ -35,8 +35,8 @@ class LoginAuthorization with ChangeNotifier {
             .then((value) async {
           loading = false;
           notifyListeners();
-          await Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const MainScreen()));
+          await Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => MainScreen()));
           return null;
         });
       } on FirebaseAuthException catch (e) {
