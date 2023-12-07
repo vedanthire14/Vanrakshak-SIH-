@@ -7,9 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:feature_discovery/feature_discovery.dart';
 import 'package:vanrakshak/resources/mainScreenSetup/mainscreendata.dart';
-import 'package:vanrakshak/widgets/appbar/appbar.dart';
-import 'package:vanrakshak/widgets/project/newProject.dart';
-import 'package:vanrakshak/widgets/project/projectCard.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -50,150 +47,9 @@ class _MainScreenState extends State<MainScreen> {
       onWillPop: () {
         return Future.value(false);
       },
-      child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future: fetchUserDetails(),
-        builder: (BuildContext context,
-            AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Color.fromARGB(255, 69, 170, 173),
-                title: Text('Vanrakshak'),
-                centerTitle: true,
-                actions: const [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Image(image: AssetImage('assets/main/logo.png')),
-                    ),
-                  )
-                ],
-              ),
-              drawer: MyAppDrawer(),
-              backgroundColor: Color.fromARGB(255, 239, 248, 222),
-              body: SizedBox(
-                height: 0,
-                width: 0,
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            mainScreenSetup.allProjectsIds = snapshot.data!["projectsID"];
-            mainScreenSetup.allProjects = [];
-            List<Future<void>> projectFutures = [];
-
-            for (int i = 0; i < mainScreenSetup.allProjectsIds.length; i++) {
-              // print(i);
-              projectFutures.add(db
-                  .collection("projects")
-                  .doc(mainScreenSetup.allProjectsIds[i])
-                  .get()
-                  .then((value) {
-                mainScreenSetup.allProjects.add(
-                  GestureDetector(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ProjectDetailScreen(
-                      //       progress: double.parse(
-                      //           value.data()!["progress"].toString()),
-                      //       projectID: homePageSetup.allProjectsIds[i],
-                      //     ),
-                      //   ),
-                      // );
-                    },
-                    child: ProjectCard(
-                      title: value.data()!["title"],
-                      location: value.data()!["location"],
-                      date: value.data()!["date"],
-                      progress:
-                          double.parse(value.data()!["progress"].toString()),
-                      isMapped: value.data()!["isMapped"],
-                      isEnumerated: value.data()!["isEnumerated"],
-                      isSpecies: value.data()!["isSpecies"],
-                      isReported: value.data()!["isReported"],
-                    ),
-                  ),
-                );
-              }));
-            }
-
-            return FutureBuilder<void>(
-              future: Future.wait(projectFutures),
-              builder:
-                  (BuildContext context, AsyncSnapshot<void> projectSnapshot) {
-                if (projectSnapshot.connectionState == ConnectionState.done) {
-                  return Scaffold(
-                    appBar: AppBar(
-                      backgroundColor: Color.fromARGB(255, 69, 170, 173),
-                      title: Text('Vanrakshak'),
-                      centerTitle: true,
-                      actions: [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: (snapshot.data!["profilePic"] == "")
-                                ? Image.asset('assets/main/logo.png')
-                                : Image.network(
-                                    snapshot.data!["profilePic"],
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                          ),
-                        )
-                      ],
-                    ),
-                    drawer: MyAppDrawer(),
-                    backgroundColor: Color.fromARGB(255, 239, 248, 222),
-                    body: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 35.0),
-                          GestureDetector(
-                            onTap: () {
-                              _selectTimeSlotBottomSheet(context, 0, original);
-                            },
-                            child: CreateProjectWid(),
-                          ),
-                          Column(
-                            children: mainScreenSetup.allProjects,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                } else {
-                  return Scaffold(
-                    appBar: AppBar(
-                      backgroundColor: Color.fromARGB(255, 69, 170, 173),
-                      title: Text('Vanrakshak'),
-                      centerTitle: true,
-                      actions: const [
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Image(
-                                image: AssetImage('assets/main/logo.png')),
-                          ),
-                        )
-                      ],
-                    ),
-                    drawer: MyAppDrawer(),
-                    backgroundColor: Color.fromARGB(255, 239, 248, 222),
-                    body: SizedBox(
-                      height: 0,
-                      width: 0,
-                    ),
-                  );
-                }
-              },
-            );
-          }
-        },
+      child: mainScreenSetup.userProjects(
+        _selectTimeSlotBottomSheet,
+        original,
       ),
     );
   }
