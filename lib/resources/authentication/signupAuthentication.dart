@@ -57,7 +57,7 @@ class SignupAuthorization with ChangeNotifier {
 
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => MainScreen(),
+              builder: (context) => const MainScreen(),
             ),
           );
         });
