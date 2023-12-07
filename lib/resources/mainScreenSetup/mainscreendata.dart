@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vanrakshak/screens/projectScreens/satelliteMapping.dart';
 import 'package:vanrakshak/widgets/appbar/appbar.dart';
 import 'package:vanrakshak/widgets/project/newProject.dart';
 import 'package:vanrakshak/widgets/project/projectCard.dart';
@@ -139,6 +140,13 @@ class MainScreenSetup with ChangeNotifier {
                   allProjects.add(
                     GestureDetector(
                       onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                MapScreen(projectID: "projectID"),
+                          ),
+                        );
                         // Navigator.push(
                         //   context,
                         //   MaterialPageRoute(
