@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />    
     <application
         android:label="vanrakshak"
         android:name="${applicationName}"
@@ -29,5 +31,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data 
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC5QkMgaiQo3G7RH95BWJoqzWbKczWVCkU"/>
     </application>
 </manifest>

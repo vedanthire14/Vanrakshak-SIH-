@@ -42,7 +42,7 @@ class MainScreenSetup with ChangeNotifier {
       "location": location,
       "description": description,
       "date": date,
-      "progress": 100.0, // 100% hard
+      "progress": 0.0,
       "isMapped": false,
       "isEnumerated": false,
       "isSpecies": false,
