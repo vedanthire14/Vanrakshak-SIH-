@@ -12,6 +12,7 @@ class MainScreenSetup with ChangeNotifier {
   final db = FirebaseFirestore.instance;
   final userData = FirebaseAuth.instance.currentUser;
   var uuid = const Uuid();
+  bool loading = false;
 
   void createNewProject(String title, String location, String description) {
     String date = DateTime.now().toString().substring(0, 10);
@@ -98,13 +99,33 @@ class MainScreenSetup with ChangeNotifier {
             ),
             drawer: const MyAppDrawer(),
             backgroundColor: const Color.fromARGB(255, 239, 248, 222),
-            body: const SizedBox(
-              height: 0,
-              width: 0,
+            body: const Center(
+              child: CircularProgressIndicator(color: Colors.teal),
             ),
           );
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          // print('Error: ${snapshot.error}');
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: const Color.fromARGB(255, 69, 170, 173),
+              title: const Text('Vanrakshak'),
+              centerTitle: true,
+              actions: const [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Image(image: AssetImage('assets/main/logo.png')),
+                  ),
+                )
+              ],
+            ),
+            drawer: const MyAppDrawer(),
+            backgroundColor: const Color.fromARGB(255, 239, 248, 222),
+            body: const Center(
+              child: Text("Error Occured"),
+            ),
+          );
         } else {
           allProjectsIds = snapshot.data!["projectsID"];
           allProjects = [];
@@ -112,40 +133,39 @@ class MainScreenSetup with ChangeNotifier {
 
           for (int i = 0; i < allProjectsIds.length; i++) {
             // print(i);
-            projectFutures.add(db
-                .collection("projects")
-                .doc(allProjectsIds[i])
-                .get()
-                .then((value) {
-              allProjects.add(
-                GestureDetector(
-                  onTap: () {
-                    print("ho raha");
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ProjectDetailScreen(
-                    //       progress: double.parse(
-                    //           value.data()!["progress"].toString()),
-                    //       projectID: homePageSetup.allProjectsIds[i],
-                    //     ),
-                    //   ),
-                    // );
-                  },
-                  child: ProjectCard(
-                    title: value.data()!["title"],
-                    location: value.data()!["location"],
-                    date: value.data()!["date"],
-                    progress:
-                        double.parse(value.data()!["progress"].toString()),
-                    isMapped: value.data()!["isMapped"],
-                    isEnumerated: value.data()!["isEnumerated"],
-                    isSpecies: value.data()!["isSpecies"],
-                    isReported: value.data()!["isReported"],
-                  ),
-                ),
-              );
-            }));
+            projectFutures.add(
+              db.collection("projects").doc(allProjectsIds[i]).get().then(
+                (value) {
+                  allProjects.add(
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ProjectDetailScreen(
+                        //       progress: double.parse(
+                        //           value.data()!["progress"].toString()),
+                        //       projectID: homePageSetup.allProjectsIds[i],
+                        //     ),
+                        //   ),
+                        // );
+                      },
+                      child: ProjectCard(
+                        title: value.data()!["title"],
+                        location: value.data()!["location"],
+                        date: value.data()!["date"],
+                        progress:
+                            double.parse(value.data()!["progress"].toString()),
+                        isMapped: value.data()!["isMapped"],
+                        isEnumerated: value.data()!["isEnumerated"],
+                        isSpecies: value.data()!["isSpecies"],
+                        isReported: value.data()!["isReported"],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
           }
 
           return FutureBuilder<void>(
