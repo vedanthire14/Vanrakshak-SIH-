@@ -144,7 +144,7 @@ class MainScreenSetup with ChangeNotifier {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                MapScreen(projectID: "projectID"),
+                                MapScreen(projectID: allProjectsIds[i]),
                           ),
                         );
                         // Navigator.push(
