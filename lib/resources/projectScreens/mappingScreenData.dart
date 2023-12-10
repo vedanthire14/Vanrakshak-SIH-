@@ -16,7 +16,7 @@ class MapScreenData extends ChangeNotifier {
     BuildContext context,
     String projectID,
   ) {
-    final screenSize = MediaQuery.of(context).size;
+    // final screenSize = MediaQuery.of(context).size;
     if (snapshot!["isMapped"]) {
       points.clear();
       for (int i = 0; i < snapshot["map"]["coordinatesList"].length ~/ 2; i++) {

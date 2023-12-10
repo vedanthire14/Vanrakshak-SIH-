@@ -10,6 +10,13 @@ import numpy as np
 import firebase_admin as admin;
 from firebase_admin import storage
 
+import sys
+import torch
+from deepforest import main
+import os
+import matplotlib.pyplot as plt
+import cv2
+
 
 cred = admin.credentials.Certificate("lib/resources/api/vanrakshak-1db86-firebase-adminsdk-thgz2-58a898d20b.json")
 default_app = admin.initialize_app(
@@ -137,6 +144,39 @@ def satelliteImageScript():
     os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageMasked.png")
     os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png")
     os.remove(os.getcwd() + "\\assets\\satelliteMap.html")
+    return jsonify(output)
+
+#########################################################################################################################################################################################
+
+@app.route('/treeEnumeration',methods=['GET'])
+def treeEnumerationScript():
+    imageID = str(request.args['ProjectID'])
+
+    path_1 = "D:\\SIHMODELS\\TreeEnumeration"
+    sys.path.append(path_1)
+    img_path1 = "D:\\SIHMODELS\\TreeEnumeration.JPEG"
+    img1 = cv2.imread(img_path1, 1)
+
+    path_to_model = "D:/SIHMODELS/TreeEnumeration.pth"
+    loaded_model = main.deepforest()
+    loaded_model.model.load_state_dict(torch.load(path_to_model))
+    loaded_model.eval()
+    
+    box_info2 = loaded_model.predict_image(img1, return_plot=False)
+    num_trees2 = len(box_info2)
+    print("Number of trees:", num_trees2)
+    
+    output = {}
+    output['treeCount'] = num_trees2
+
+    img1 = loaded_model.predict_image(img1, return_plot=True)
+    # img2 = loaded_model.predict_image(img2, return_plot=True)
+    
+    path_for_images = "D:\\SIHMODELS\\TreeEnumerationMarked.png"
+
+    cv2.imwrite(path_for_images, cv2.cvtColor(img1, cv2.COLOR_RGB2BGR))
+    # plt.savefig(path_for_images)
+
     return jsonify(output)
 
 
