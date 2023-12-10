@@ -10,7 +10,7 @@ class ShyARA extends StatefulWidget {
 }
 
 class _ShyARAState extends State<ShyARA> {
-  bool isMapDataFulfilled = false;
+  bool isMapDataFulfilled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +18,37 @@ class _ShyARAState extends State<ShyARA> {
       length: 4,
       initialIndex: 0,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('ShyARA'),
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                text: "Map",
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(200),
+          child: AppBar(
+            title: Container(
+              height: 200,
+              child: const Column(
+                children: [
+                  Text('ShyARA'),
+                  Text('ShyARA'),
+                  Text('ShyARA'),
+                  Text('ShyARA'),
+                  Text('ShyARA')
+                ],
               ),
-              Tab(
-                text: "Enum",
-              ),
-              Tab(
-                text: "Species",
-              ),
-              Tab(
-                text: "Report",
-              ),
-            ],
+            ),
+            bottom: TabBar(
+              tabs: [
+                Tab(
+                  text: "Map",
+                ),
+                Tab(
+                  text: "Enum",
+                ),
+                Tab(
+                  text: "Species",
+                ),
+                Tab(
+                  text: "Report",
+                ),
+              ],
+            ),
           ),
         ),
         body: TabBarView(
