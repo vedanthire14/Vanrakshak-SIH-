@@ -19,21 +19,58 @@ class _ShyARAState extends State<ShyARA> {
       initialIndex: 0,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(200),
+          preferredSize: const Size(double.infinity, 200),
           child: AppBar(
-            title: Container(
-              height: 200,
-              child: const Column(
+            backgroundColor: const Color.fromARGB(255, 69, 170, 173),
+            flexibleSpace: const Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('ShyARA'),
-                  Text('ShyARA'),
-                  Text('ShyARA'),
-                  Text('ShyARA'),
-                  Text('ShyARA')
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Project Name",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Project Description",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Project ID",
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ),
-            bottom: TabBar(
+            bottom: const TabBar(
+              indicatorColor: Colors.white,
+              indicatorWeight: 5,
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.black,
               tabs: [
                 Tab(
                   text: "Map",
@@ -55,7 +92,7 @@ class _ShyARAState extends State<ShyARA> {
           physics: const NeverScrollableScrollPhysics(),
           children: [
             // Screen 1
-            MapScreen(
+            const MapScreen(
               projectID: "projectID",
             ),
             // Screen 2
@@ -68,14 +105,14 @@ class _ShyARAState extends State<ShyARA> {
             ),
             // Screen 3
             if (isMapDataFulfilled)
-              Center(
+              const Center(
                 child: Text('Species Content'),
               )
             else
               _disabledTabContent(),
             // Screen 4
             if (isMapDataFulfilled)
-              Center(
+              const Center(
                 child: Text('Report Content'),
               )
             else
@@ -87,7 +124,7 @@ class _ShyARAState extends State<ShyARA> {
   }
 
   Widget _disabledTabContent() {
-    return Center(
+    return const Center(
       child: Text('Please .'),
     );
   }
