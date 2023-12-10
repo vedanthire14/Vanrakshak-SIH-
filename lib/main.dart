@@ -8,6 +8,7 @@ import 'package:vanrakshak/resources/authentication/signupAuthentication.dart';
 import 'package:vanrakshak/resources/mainScreenSetup/mainscreendata.dart';
 import 'package:vanrakshak/screens/introSlider/introSlider.dart';
 import 'package:vanrakshak/screens/mainScreens/mainScreen.dart';
+import 'package:vanrakshak/screens/projectScreens/shyARA.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, userSnp) {
               if (userSnp.hasData) {
-                return const MainScreen();
+                return const ShyARA();
               }
               return MyLiquidSwipe();
             },
