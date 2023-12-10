@@ -15,6 +15,7 @@ import 'package:vanrakshak/widgets/project/mappingScreen/locationInput.dart';
 
 class MapScreen extends StatefulWidget {
   final String projectID;
+
   const MapScreen({super.key, required this.projectID});
 
   @override
