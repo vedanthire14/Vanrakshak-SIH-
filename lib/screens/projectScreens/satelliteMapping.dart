@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as googlemap;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as toolkit;
 import 'package:vanrakshak/resources/api/apiResponse.dart';
+import 'package:vanrakshak/screens/projectScreens/projectMainScreen.dart';
 import 'package:vanrakshak/widgets/project/mappingScreen/locationInput.dart';
 
 class MapScreen extends StatefulWidget {
@@ -306,54 +307,51 @@ class MapScreenState extends State<MapScreen> {
                 loading = false;
               });
             }
-            // if (output == "The map has successfully been created") {
-            //   List<double> databaseCoords = [];
-            //   for (int i = 0; i < coordinates.length; i++) {
-            //     databaseCoords.add(coordinates[i].latitude);
-            //     databaseCoords.add(coordinates[i].longitude);
-            //   }
-            //   Map<String, dynamic> databaseUpdate = <String, dynamic>{
-            //     "coordinatesList": databaseCoords,
-            //     "centerCoordinate": [
-            //       calculateCenter(points).latitude,
-            //       calculateCenter(points).longitude
-            //     ],
-            //     "areaAcres": areaAcres,
-            //     "areaMeters": areaInSquareMeters,
-            //     "satelliteImageWithPolygon": satelliteImageLink,
-            //     "satelliteImageWithPolygonMasked": matelliteImageMaskedLink,
-            //     "elevationList": elevationList,
-            //     "zoomLevel": currentZoom
-            //   };
-            //   await FirebaseFirestore.instance
-            //       .collection("projects")
-            //       .doc(widget.projectID)
-            //       .update({
-            //     "progress": 25.0,
-            //     "isMapped": true,
-            //     "map": databaseUpdate,
-            //   }).then((value) {
-            // setState(() {
-            //   loading = false;
-            // });
-            //     // Navigator.pop(context);
-            //     // Navigator.pop(context);
-            //     // Navigator.push(
-            //     //   context,
-            //     //   MaterialPageRoute(
-            //     //     builder: (context) => ProjectDetailScreen(
-            //     //       projectID: widget.projectID,
-            //     //       progress: 100.0,
-            //     //     ),
-            //     //   ),
-            //     // );
-            //   });
-            // } else {
-            //   setState(() {
-            //     loading = false;
-            //   });
-            //   print("Some Error Occured");
-            // }
+            if (output == "The map has successfully been created") {
+              List<double> databaseCoords = [];
+              for (int i = 0; i < coordinates.length; i++) {
+                databaseCoords.add(coordinates[i].latitude);
+                databaseCoords.add(coordinates[i].longitude);
+              }
+              Map<String, dynamic> databaseUpdate = <String, dynamic>{
+                "coordinatesList": databaseCoords,
+                "centerCoordinate": [
+                  calculateCenter(points).latitude,
+                  calculateCenter(points).longitude
+                ],
+                "areaAcres": areaAcres,
+                "areaMeters": areaInSquareMeters,
+                "satelliteImageWithPolygonUnmasked": satelliteImageLink,
+                "satelliteImageWithPolygonMasked": matelliteImageMaskedLink,
+                "elevationList": elevationList,
+                "zoomLevel": currentZoom
+              };
+              await FirebaseFirestore.instance
+                  .collection("projects")
+                  .doc(widget.projectID)
+                  .update({
+                "progress": 25.0,
+                "isMapped": true,
+                "map": databaseUpdate,
+              }).then((value) {
+                setState(() {
+                  loading = false;
+                });
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProjectMainScreen(projectID: widget.projectID)
+                  ),
+                );
+              });
+            } else {
+              setState(() {
+                loading = false;
+              });
+              print("Some Error Occured");
+            }
           },
           child: const Icon(
             Icons.download,

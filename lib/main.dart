@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:vanrakshak/resources/authentication/loginAuthentication.dart';
 import 'package:vanrakshak/resources/authentication/signupAuthentication.dart';
 import 'package:vanrakshak/resources/mainScreenSetup/mainscreendata.dart';
+import 'package:vanrakshak/resources/projectScreens/mappingScreenData.dart';
 import 'package:vanrakshak/screens/introSlider/introSlider.dart';
 import 'package:vanrakshak/screens/mainScreens/mainScreen.dart';
-import 'package:vanrakshak/screens/projectScreens/shyARA.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -34,6 +34,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => MainScreenSetup(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => MapScreenData(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -43,7 +46,7 @@ class MyApp extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, userSnp) {
               if (userSnp.hasData) {
-                return const ShyARA();
+                return const MainScreen();
               }
               return MyLiquidSwipe();
             },
