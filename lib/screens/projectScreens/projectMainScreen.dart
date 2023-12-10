@@ -132,6 +132,7 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
                                 isMapDataFulfilled = true;
                               });
                             },
+                            projectID: widget.projectID,
                           ),
                           if (isMapDataFulfilled)
                             const Center(

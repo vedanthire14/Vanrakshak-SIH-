@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vanrakshak/screens/projectScreens/projectMainScreen.dart';
-import 'package:vanrakshak/screens/projectScreens/satelliteMapping.dart';
 import 'package:vanrakshak/widgets/appbar/appbar.dart';
 import 'package:vanrakshak/widgets/project/newProject.dart';
 import 'package:vanrakshak/widgets/project/projectCard.dart';
