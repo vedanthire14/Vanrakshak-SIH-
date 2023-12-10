@@ -60,7 +60,9 @@ def satelliteImageScript():
     driver.get(os.getcwd() + "\\assets\\satelliteMap.html") 
     time.sleep(2)
 
-    screenshot_path = os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImage.png"
+    ##########################################################################################################################################################################
+
+    screenshot_path = os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png"
     driver.save_screenshot(screenshot_path)
 
     driver.quit()
@@ -72,9 +74,9 @@ def satelliteImageScript():
 
     img.save(screenshot_path)
 
-    fileName = os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImage.png"
+    fileName = os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png"
     bucket = storage.bucket()
-    blob = bucket.blob(fileName)
+    blob = bucket.blob(f"SatelliteImages/PolygonUnmasked/{imageID}_____ConstructionPolygonSatelliteImageUnmasked.png")
     blob.upload_from_filename(fileName)
 
     blob.make_public()
@@ -83,10 +85,12 @@ def satelliteImageScript():
 
     print(f"Screenshot saved with size {desired_size}")
     output['result'] = "The map has successfully been created"
-    output['maplink'] =  blob.public_url
-    output['elevationlist'] = elevationList
+    output['satelliteImageUnmasked'] =  blob.public_url
+    output['elevationList'] = elevationList
 
-    img = cv2.imread(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImage.png")
+    ##########################################################################################################################################################################
+    
+    img = cv2.imread(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png")
     hsv_image = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     
     lower_blue = np.array([90, 50, 50])
@@ -117,19 +121,21 @@ def satelliteImageScript():
 
     cv2.imwrite(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageMasked.png", result_image)
 
-    fileName1 = os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageMasked.png"
-    bucket1 = storage.bucket()
-    blob1 = bucket1.blob(fileName1)
-    blob1.upload_from_filename(fileName1)
+    fileName = os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageMasked.png"
+    bucket = storage.bucket()
+    blob = bucket.blob(f"SatelliteImages/PolygonMasked/{imageID}_____ConstructionPolygonSatelliteImageMasked.png")
+    blob.upload_from_filename(fileName)
 
-    blob1.make_public()
+    blob.make_public()
 
-    print("your file url", blob1.public_url)
+    print("your file url", blob.public_url)
 
-    output['mapmaskedlink'] =  blob1.public_url
+    output['satelliteImageMasked'] =  blob.public_url
+
+    ##########################################################################################################################################################################
 
     os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageMasked.png")
-    os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImage.png")
+    os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png")
     os.remove(os.getcwd() + "\\assets\\satelliteMap.html")
     return jsonify(output)
 

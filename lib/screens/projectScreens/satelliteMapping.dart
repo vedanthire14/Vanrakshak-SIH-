@@ -319,9 +319,9 @@ class MapScreenState extends State<MapScreen> {
             var jsonData = await apiResponse(uri);
             var decodedData = jsonDecode(jsonData);
             String output = decodedData['result'];
-            String mapimageLink = decodedData['maplink'];
-            String mapmaskedimageLink = decodedData['mapmaskedlink'];
-            List elevationList = decodedData['elevationlist'];
+            String satelliteImageLink = decodedData['satelliteImageUnmasked'];
+            String matelliteImageMaskedLink = decodedData['satelliteImageMasked'];
+            List elevationList = decodedData['elevationList'];
             print(output);
             if (output == "The map has successfully been created") {
               setState(() {
@@ -342,8 +342,8 @@ class MapScreenState extends State<MapScreen> {
             //     ],
             //     "areaAcres": areaAcres,
             //     "areaMeters": areaInSquareMeters,
-            //     "satelliteImageWithPolygon": mapimageLink,
-            //     "satelliteImageWithPolygonMasked": mapmaskedimageLink,
+            //     "satelliteImageWithPolygon": satelliteImageLink,
+            //     "satelliteImageWithPolygonMasked": matelliteImageMaskedLink,
             //     "elevationList": elevationList,
             //     "zoomLevel": currentZoom
             //   };
