@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:math' as Math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -47,29 +46,6 @@ class MapScreenState extends State<MapScreen> {
     target: googlemap.LatLng(25.521502740705998, 91.55437264591455),
     zoom: 15,
   );
-
-  static double calculatePolygonArea(List coordinates) {
-    double area = 0;
-
-    if (coordinates.length > 2) {
-      for (var i = 0; i < coordinates.length - 1; i++) {
-        var p1 = coordinates[i];
-        var p2 = coordinates[i + 1];
-        area += convertToRadian(p2.longitude - p1.longitude) *
-            (2 +
-                Math.sin(convertToRadian(p1.latitude)) +
-                Math.sin(convertToRadian(p2.latitude)));
-      }
-
-      area = area * 6378137 * 6378137 / 2;
-    }
-
-    return area.abs() * 0.000247105; //sq meters to Acres
-  }
-
-  static double convertToRadian(double input) {
-    return input * Math.pi / 180;
-  }
 
   googlemap.LatLng calculateCenter(List<googlemap.LatLng> points) {
     var longitudes = points.map((i) => i.longitude).toList();
@@ -320,7 +296,8 @@ class MapScreenState extends State<MapScreen> {
             var decodedData = jsonDecode(jsonData);
             String output = decodedData['result'];
             String satelliteImageLink = decodedData['satelliteImageUnmasked'];
-            String matelliteImageMaskedLink = decodedData['satelliteImageMasked'];
+            String matelliteImageMaskedLink =
+                decodedData['satelliteImageMasked'];
             List elevationList = decodedData['elevationList'];
             print(output);
             if (output == "The map has successfully been created") {
