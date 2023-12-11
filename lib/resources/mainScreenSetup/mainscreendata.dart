@@ -58,7 +58,10 @@ class MainScreenSetup with ChangeNotifier {
         "satelliteImageWithPolygonMasked": "",
         "elevationList": [],
       },
-      "enum": {},
+      "enum": {
+        "treeCount": 0,
+        "enumeratedImage": "",
+      },
       "species": {},
       "report": {},
       "droneVideoLink": "",

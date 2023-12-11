@@ -2,8 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vanrakshak/resources/projectScreens/enumerationScreenData.dart';
 import 'package:vanrakshak/resources/projectScreens/mappingScreenData.dart';
-import 'package:vanrakshak/screens/projectScreens/enumerationScreen.dart';
 
 class ProjectMainScreen extends StatefulWidget {
   final String projectID;
@@ -36,6 +36,7 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
   @override
   Widget build(BuildContext context) {
     MapScreenData mapScreenData = Provider.of<MapScreenData>(context);
+    EnumScreenData enumScreenData = Provider.of<EnumScreenData>(context);
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 239, 248, 222),
       body: (loading)
@@ -119,21 +120,11 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
                 ),
                 body: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),
-                  children: (loading)
-                      ? []
-                      : [
-                          (loading)
-                              ? Container()
-                              : mapScreenData.mapPage(
-                                  projectDetails, context, widget.projectID),
-                          EnumerationScreen(
-                            onDataFulfilled: () {
-                              setState(() {
-                                isMapDataFulfilled = true;
-                              });
-                            },
-                            projectID: widget.projectID,
-                          ),
+                  children: [
+                          (loading)?Container():mapScreenData.mapPage(
+                              projectDetails, context, widget.projectID),
+                          (loading)?Container():enumScreenData.enumScreen(
+                              projectDetails, context, widget.projectID),
                           if (isMapDataFulfilled)
                             const Center(
                               child: Text('Species Content'),

@@ -14,8 +14,9 @@ import sys
 import torch
 from deepforest import main
 import os
-import matplotlib.pyplot as plt
 import cv2
+import urllib.request
+import numpy as np
 
 
 cred = admin.credentials.Certificate("lib/resources/api/vanrakshak-1db86-firebase-adminsdk-thgz2-58a898d20b.json")
@@ -150,12 +151,16 @@ def satelliteImageScript():
 
 @app.route('/treeEnumeration',methods=['GET'])
 def treeEnumerationScript():
+    imageLink = str(request.args['imageLink'])
     imageID = str(request.args['ProjectID'])
 
     path_1 = "D:\\SIHMODELS\\TreeEnumeration"
     sys.path.append(path_1)
-    img_path1 = "D:\\SIHMODELS\\TreeEnumeration.JPEG"
-    img1 = cv2.imread(img_path1, 1)
+    # img_path1 = "D:\\SIHMODELS\\TreeEnumeration.JPEG"
+    # img1 = cv2.imread(img_path1, 1)
+    req = urllib.request.urlopen(imageLink)
+    arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
+    img1 = cv2.imdecode(arr, -1)
 
     path_to_model = "D:/SIHMODELS/TreeEnumeration.pth"
     loaded_model = main.deepforest()
@@ -170,12 +175,21 @@ def treeEnumerationScript():
     output['treeCount'] = num_trees2
 
     img1 = loaded_model.predict_image(img1, return_plot=True)
-    # img2 = loaded_model.predict_image(img2, return_plot=True)
     
-    path_for_images = "D:\\SIHMODELS\\TreeEnumerationMarked.png"
+    path_for_images = os.getcwd() + "\\assets\\" + imageID + "_____TreeEnumeratedImage.png"
 
     cv2.imwrite(path_for_images, cv2.cvtColor(img1, cv2.COLOR_RGB2BGR))
-    # plt.savefig(path_for_images)
+
+    fileName = os.getcwd() + "\\assets\\" + imageID + "_____TreeEnumeratedImage.png"
+    bucket = storage.bucket()
+    blob = bucket.blob(f"EnumerationImages/{imageID}_____TreeEnumeratedImage.png")
+    blob.upload_from_filename(fileName)
+
+    blob.make_public()
+
+    print("your file url", blob.public_url)
+
+    output['enumeratedImageLink'] =  blob.public_url
 
     return jsonify(output)
 
