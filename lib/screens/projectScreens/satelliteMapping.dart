@@ -291,7 +291,7 @@ class MapScreenState extends State<MapScreen> {
             var areaAcres = areaInSquareMeters / 4046.85642;
 
             url += "&zoomlevel=$currentZoom";
-
+            print(currentZoom);
             Uri uri = Uri.parse(url);
             print(uri);
             var jsonData = await apiResponse(uri);
@@ -342,8 +342,8 @@ class MapScreenState extends State<MapScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProjectMainScreen(projectID: widget.projectID)
-                  ),
+                      builder: (context) =>
+                          ProjectMainScreen(projectID: widget.projectID)),
                 );
               });
             } else {
