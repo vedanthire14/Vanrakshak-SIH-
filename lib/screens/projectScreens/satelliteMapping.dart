@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
@@ -37,7 +37,7 @@ class MapScreenState extends State<MapScreen> {
         currentZoom = 15;
       }
     });
-    print('Current Zoom: $currentZoom');
+    // print('Current Zoom: $currentZoom');
   }
 
   Set<googlemap.Polygon> _polygon = HashSet<googlemap.Polygon>();
@@ -142,7 +142,7 @@ class MapScreenState extends State<MapScreen> {
                                     googlemap.BitmapDescriptor.hueGreen),
                           ));
                         });
-                        print(points);
+                        // print(points);
                       },
                       mapType: googlemap.MapType.hybrid,
                       initialCameraPosition: _kGooglePlex,
@@ -179,13 +179,13 @@ class MapScreenState extends State<MapScreen> {
           backgroundColor: const Color.fromARGB(255, 239, 248, 222),
           label: 'Add Marker',
           onTap: () {
-            var areaInSquareMeters =
-                toolkit.SphericalUtil.computeArea(coordinates);
+            // var areaInSquareMeters =
+            //     toolkit.SphericalUtil.computeArea(coordinates);
             // print("List of coordinates of polygon : $coordinates");
             // print("Center Coordinate : ${calculateCenter(points).latitude}");
             // print("Area in meter square : $areaInSquareMeters");
-            var areaAcres = areaInSquareMeters / 4046.85642;
-            print("Area in acres : $areaAcres");
+            // var areaAcres = areaInSquareMeters / 4046.85642;
+            // print("Area in acres : $areaAcres");
 
             setState(() {
               _polygon.add(
@@ -291,9 +291,8 @@ class MapScreenState extends State<MapScreen> {
             var areaAcres = areaInSquareMeters / 4046.85642;
 
             url += "&zoomlevel=$currentZoom";
-            print(currentZoom);
             Uri uri = Uri.parse(url);
-            print(uri);
+            // print(uri);
             var jsonData = await apiResponse(uri);
             var decodedData = jsonDecode(jsonData);
             String output = decodedData['result'];
@@ -301,7 +300,6 @@ class MapScreenState extends State<MapScreen> {
             String matelliteImageMaskedLink =
                 decodedData['satelliteImageMasked'];
             List elevationList = decodedData['elevationList'];
-            print(output);
             if (output == "The map has successfully been created") {
               setState(() {
                 loading = false;
@@ -342,15 +340,17 @@ class MapScreenState extends State<MapScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          ProjectMainScreen(projectID: widget.projectID)),
+                    builder: (context) =>
+                        ProjectMainScreen(projectID: widget.projectID),
+                  ),
                 );
               });
             } else {
               setState(() {
                 loading = false;
               });
-              print("Some Error Occured");
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text("Please Retry")));
             }
           },
           child: const Icon(
@@ -383,7 +383,6 @@ class MapScreenState extends State<MapScreen> {
           final location = firstResult['geometry']['location'];
           final lat = location['lat'];
           final lng = location['lng'];
-          print("Lat: $lat, Lng: $lng");
 
           _markers.add(
             googlemap.Marker(

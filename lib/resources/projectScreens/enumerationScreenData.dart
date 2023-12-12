@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -145,7 +145,7 @@ class EnumScreenData extends ChangeNotifier {
       return SingleChildScrollView(
         child: Center(
           child: Column(
-            children: [
+            children: const [
               SizedBox(
                 height: 200,
               ),
