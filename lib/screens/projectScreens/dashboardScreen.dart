@@ -16,6 +16,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   final String predefinedState = "Telangana";
   final String areaOfMarkedRegion = "12345";
   final List<String> polygonCoordinates = ["12345", "12345", "12345", "12345"];
+  final Color Bgcolor = Color.fromARGB(255, 39, 159, 130);
+  final Color Frontcolor = Color.fromARGB(255, 239, 248, 222);
+  final Color buttoncolor = Color.fromARGB(255, 69, 170, 173);
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +27,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         title: Text(
           "Dashboard",
           style: GoogleFonts.openSans(
-              color: Colors.white, fontWeight: FontWeight.bold),
+              color: Frontcolor, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.green[700],
+        backgroundColor: Bgcolor,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -151,7 +154,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildDetailText("Location: $predefinedLocation", Icons.location_on),
+        _buildDetailText(
+          "Location: $predefinedLocation",
+          Icons.location_on,
+        ),
         _buildDetailText("State: $predefinedState", Icons.flag),
       ],
     );
@@ -160,9 +166,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   Widget _buildDetailText(String text, IconData icon) {
     return Row(
       children: [
-        Icon(icon, color: Colors.green),
+        Icon(icon, color: Bgcolor),
         SizedBox(width: 5),
-        Text(text, style: GoogleFonts.openSans(fontSize: 15)),
+        Text(text,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.openSans(fontSize: 15)),
       ],
     );
   }
@@ -208,52 +216,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       ),
     );
   }
-
-  Widget _buildCoordinatesCard() {
-    return Card(
-      elevation: 4,
-      child: Padding(
-        padding: EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildDetailText("Co-Ordinates", Icons.map),
-            SizedBox(height: 10),
-            ...polygonCoordinates
-                .map((coordinate) => Text(
-                      coordinate,
-                      style: GoogleFonts.openSans(fontSize: 16),
-                    ))
-                .toList(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAreaCard() {
-    return Card(
-      elevation: 4,
-      child: Row(
-        children: [
-          Expanded(
-            child: Image.asset('assets/project/projectTile50.png',
-                fit: BoxFit.cover), // Placeholder for your image
-          ),
-          VerticalDivider(
-            thickness: 1,
-            color: Colors.grey[400],
-          ),
-          Expanded(
-            child: Text(
-              "Area: $areaOfMarkedRegion",
-              style: GoogleFonts.openSans(fontSize: 18),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class CustomCard extends StatefulWidget {
@@ -279,6 +241,9 @@ class _CustomCardState extends State<CustomCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
+  final Color Bgcolor = Color.fromARGB(255, 39, 159, 130);
+  final Color Frontcolor = Color.fromARGB(255, 239, 248, 222);
+  final Color buttoncolor = Color.fromARGB(255, 69, 170, 173);
 
   @override
   void initState() {
@@ -330,7 +295,7 @@ class _CustomCardState extends State<CustomCard>
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.lightGreen,
+              color: Bgcolor,
             ),
           ),
           SizedBox(height: 4),
@@ -356,14 +321,14 @@ class _CustomCardState extends State<CustomCard>
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.lightGreen, // Light green color for the button
+          color: buttoncolor, // Light green color for the button
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           'Tap to Explore',
           style: TextStyle(
             fontSize: 14,
-            color: Colors.white, // Contrast color for readability
+            color: Colors.white,
           ),
         ),
       ),
@@ -387,7 +352,7 @@ class _CustomCardState extends State<CustomCard>
             _buildGraphImage(),
             SizedBox(width: 20.0),
             _buildTitleDescription(),
-            SizedBox(width: 20.0), // Use a Spacer for even spacing
+            SizedBox(width: 20.0),
             _buildExploreButton(),
           ],
         ),
@@ -397,8 +362,8 @@ class _CustomCardState extends State<CustomCard>
 }
 
 class AreaCoordinateCard extends StatelessWidget {
-  final String areaOfMarkedRegion; // Assuming this is a property
-  final List<String> polygonCoordinates; // Assuming this is a property
+  final String areaOfMarkedRegion;
+  final List<String> polygonCoordinates;
 
   AreaCoordinateCard(
       {Key? key,

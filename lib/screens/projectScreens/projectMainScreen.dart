@@ -49,13 +49,15 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
               initialIndex: 0,
               child: Scaffold(
                 appBar: PreferredSize(
-                  preferredSize: const Size(double.infinity, 200),
+                  preferredSize: const Size(double.infinity, 170),
                   child: AppBar(
-                    backgroundColor: const Color.fromARGB(255, 69, 170, 173),
+                    automaticallyImplyLeading: false,
+                    backgroundColor: const Color.fromARGB(255, 39, 159, 130),
                     flexibleSpace: Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.only(
+                          left: 15.0, right: 15.0, top: 15.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const SizedBox(
                             height: 20,
@@ -63,7 +65,11 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
                           Text(
                             projectDetails!["title"],
                             style: const TextStyle(
-                              fontSize: 20,
+                              decoration: TextDecoration.underline,
+                              decorationStyle: TextDecorationStyle.solid,
+                              decorationColor:
+                                  const Color.fromARGB(255, 239, 248, 222),
+                              fontSize: 28,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
@@ -72,26 +78,27 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
                             height: 20,
                           ),
                           Text(
-                            projectDetails!["description"],
+                            projectDetails!["location"],
                             style: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: const Color.fromARGB(255, 239, 248, 222),
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                           Text(
-                            widget.projectID,
+                            "(" + projectDetails!["date"] + ")",
                             style: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: const Color.fromARGB(255, 239, 248, 222),
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
+                          Divider(
+                            color: const Color.fromARGB(255, 239, 248, 222),
+                            thickness: 1,
                           ),
                         ],
                       ),
@@ -100,7 +107,8 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
                       indicatorColor: Colors.white,
                       indicatorWeight: 5,
                       labelColor: Colors.white,
-                      unselectedLabelColor: Colors.black,
+                      unselectedLabelColor:
+                          const Color.fromARGB(255, 239, 248, 222),
                       tabs: [
                         Tab(
                           text: "Map",
@@ -121,23 +129,27 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
                 body: TabBarView(
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                          (loading)?Container():mapScreenData.mapPage(
-                              projectDetails, context, widget.projectID),
-                          (loading)?Container():enumScreenData.enumScreen(
-                              projectDetails, context, widget.projectID),
-                          if (isMapDataFulfilled)
-                            const Center(
-                              child: Text('Species Content'),
-                            )
-                          else
-                            _disabledTabContent(),
-                          if (isMapDataFulfilled)
-                            const Center(
-                              child: Text('Report Content'),
-                            )
-                          else
-                            _disabledTabContent(),
-                        ],
+                    (loading)
+                        ? Container()
+                        : mapScreenData.mapPage(
+                            projectDetails, context, widget.projectID),
+                    (loading)
+                        ? Container()
+                        : enumScreenData.enumScreen(
+                            projectDetails, context, widget.projectID),
+                    if (isMapDataFulfilled)
+                      const Center(
+                        child: Text('Species Content'),
+                      )
+                    else
+                      _disabledTabContent(),
+                    if (isMapDataFulfilled)
+                      const Center(
+                        child: Text('Report Content'),
+                      )
+                    else
+                      _disabledTabContent(),
+                  ],
                 ),
               ),
             ),
