@@ -48,9 +48,6 @@ def satelliteImageScript():
     center_lat = sum(lat for lat, _ in polygon_coords) / len(polygon_coords)
     center_lng = sum(lng for _, lng in polygon_coords) / len(polygon_coords)
 
-    # sw = df[['Lat', 'Long']].min().values.tolist()
-    # ne = df[['Lat', 'Long']].max().values.tolist()  
-
     tile_layer = "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
 
     my_map = folium.Map(location=[center_lat, center_lng],min_zoom=zoom-1, zoom_start=zoom,max_zoom=zoom, tiles=tile_layer, attr='Google Maps')
@@ -60,11 +57,6 @@ def satelliteImageScript():
     my_map.fit_bounds(polygon_coords)
     my_map.save(os.getcwd() + "\\assets\\satelliteMap.html")
 
-    
-    # my_map = folium.Map(location=[center_lat, center_lng],zoom_mag = zoom_start)
-
-    
-    
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')  
     driver = webdriver.Chrome(options=options)  
@@ -104,18 +96,15 @@ def satelliteImageScript():
     
     img = cv2.imread(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png")
     hsv_image = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    
-    # lower_blue = np.array([90, 50, 50])
-    # upper_blue = np.array([130, 255, 255])
 
     lower_red = np.array([0, 50, 50])
     upper_red = np.array([5, 255, 255])
 
-    blue_mask = cv2.inRange(hsv_image, lower_red, upper_red)
+    red_mask = cv2.inRange(hsv_image, lower_red, upper_red)
 
-    mask = np.zeros_like(blue_mask)
+    mask = np.zeros_like(red_mask)
 
-    contours, _ = cv2.findContours(blue_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(red_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     cv2.drawContours(mask, contours, -1, 255, thickness=cv2.FILLED)
 
@@ -155,8 +144,6 @@ def treeEnumerationScript():
 
     path_1 = "D:\\SIHMODELS\\TreeEnumeration"
     sys.path.append(path_1)
-    # img_path1 = "D:\\SIHMODELS\\TreeEnumeration.JPEG"
-    # img1 = cv2.imread(img_path1, 1)
     req = urllib.request.urlopen(imageLink)
     arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
     img1 = cv2.imdecode(arr, -1)
@@ -194,9 +181,10 @@ def treeEnumerationScript():
     output['enumeratedImageLink'] =  blob.public_url
 
     os.remove(os.getcwd() + "\\assets\\" + imageID + "_____TreeEnumeratedImage.png")
+
     return jsonify(output)
 
-
+#########################################################################################################################################################################################
 
 if __name__ == '__main__':
     app.run()
