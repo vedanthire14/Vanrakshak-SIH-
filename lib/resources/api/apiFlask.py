@@ -53,7 +53,7 @@ def satelliteImageScript():
 
     tile_layer = "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
 
-    my_map = folium.Map(location=[center_lat, center_lng],min_zoom=zoom, zoom_start=zoom,max_zoom=zoom+1, tiles=tile_layer, attr='Google Maps')
+    my_map = folium.Map(location=[center_lat, center_lng],min_zoom=zoom-1, zoom_start=zoom,max_zoom=zoom, tiles=tile_layer, attr='Google Maps')
     
     folium.Polygon(locations=polygon_coords, color='red').add_to(my_map)
 
@@ -108,8 +108,8 @@ def satelliteImageScript():
     # lower_blue = np.array([90, 50, 50])
     # upper_blue = np.array([130, 255, 255])
 
-    lower_red = np.array([161, 155, 84])
-    upper_red = np.array([179, 255, 255])
+    lower_red = np.array([0, 50, 50])
+    upper_red = np.array([5, 255, 255])
 
     blue_mask = cv2.inRange(hsv_image, lower_red, upper_red)
 
@@ -120,19 +120,11 @@ def satelliteImageScript():
     cv2.drawContours(mask, contours, -1, 255, thickness=cv2.FILLED)
 
     result_image = cv2.bitwise_and(img, img, mask=mask)
-   
-    # gray = cv2.cvtColor(result_image, cv2.COLOR_BGR2GRAY)
 
-    # _, mask = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
+    result_image = cv2.cvtColor(result_image, cv2.COLOR_BGR2BGRA)
 
-    # b, g, r = cv2.split(result_image)
-
-    # black_mask = cv2.inRange(result_image, (0, 0, 0), (0, 0, 0))
-
-    # mask = cv2.bitwise_and(mask, cv2.bitwise_not(black_mask))
-
-    # rgba = [b, g, r, mask]
-    # result_image = cv2.merge(rgba, 4)
+    black_mask = np.all(result_image[:, :, :3] == [0, 0, 0], axis=-1)
+    result_image[black_mask, 3] = 0
 
     cv2.imwrite(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageMasked.png", result_image)
 

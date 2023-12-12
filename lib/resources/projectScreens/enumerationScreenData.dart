@@ -29,7 +29,7 @@ class EnumScreenData extends ChangeNotifier {
               ),
               SizedBox(height: 20),
               Image.network(
-                snapshot["map"]["satelliteImageWithPolygonUnmasked"],
+                snapshot["map"]["satelliteImageWithPolygonMasked"],
                 height: 300,
               ),
               SizedBox(height: 40),
@@ -78,26 +78,10 @@ class EnumScreenData extends ChangeNotifier {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.network(
-                      snapshot["map"]["satelliteImageWithPolygonUnmasked"],
-                      height: 300,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                Image.network(
+                  snapshot["map"]["satelliteImageWithPolygonMasked"],
+                  height: 300,
+                  fit: BoxFit.cover,
                 ),
                 SizedBox(
                   height: 20,
@@ -120,7 +104,7 @@ class EnumScreenData extends ChangeNotifier {
                       notifyListeners();
 
                       String url =
-                          "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithPolygonUnmasked"]}";
+                          "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithPolygonMasked"]}";
 
                       Uri uri = Uri.parse(url);
                       var data = await apiResponse(uri);
