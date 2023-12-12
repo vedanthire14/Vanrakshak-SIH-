@@ -32,8 +32,9 @@ app = Flask(__name__)
 def satelliteImageScript():
     latlngzoom = str(request.args['LatLong']).split(",")
     imageID = str(request.args['ProjectID'])
-    zoom = str(request.args['zoomlevel'])
-    if zoom == 0: zoom=15
+    zoom = float(str(request.args['zoomlevel']))
+    if zoom == 0: 
+        zoom=15
     output = {}
     polygon_coords =[]
     elevationList = []
@@ -52,14 +53,17 @@ def satelliteImageScript():
 
     tile_layer = "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
 
-    my_map = folium.Map(location=[center_lat, center_lng], zoom_start=float(zoom), tiles=tile_layer, attr='Google Maps')
+    my_map = folium.Map(location=[center_lat, center_lng],min_zoom=zoom, zoom_start=zoom,max_zoom=zoom+1, tiles=tile_layer, attr='Google Maps')
     
-    folium.Polygon(locations=polygon_coords, color='blue').add_to(my_map)
-
-    my_map.save(os.getcwd() + "\\assets\\satelliteMap.html")
-    # my_map = folium.Map(location=[center_lat, center_lng],zoom_mag = zoom_start)
+    folium.Polygon(locations=polygon_coords, color='red').add_to(my_map)
 
     my_map.fit_bounds(polygon_coords)
+    my_map.save(os.getcwd() + "\\assets\\satelliteMap.html")
+
+    
+    # my_map = folium.Map(location=[center_lat, center_lng],zoom_mag = zoom_start)
+
+    
     
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')  
@@ -101,10 +105,13 @@ def satelliteImageScript():
     img = cv2.imread(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png")
     hsv_image = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     
-    lower_blue = np.array([90, 50, 50])
-    upper_blue = np.array([130, 255, 255])
+    # lower_blue = np.array([90, 50, 50])
+    # upper_blue = np.array([130, 255, 255])
 
-    blue_mask = cv2.inRange(hsv_image, lower_blue, upper_blue)
+    lower_red = np.array([161, 155, 84])
+    upper_red = np.array([179, 255, 255])
+
+    blue_mask = cv2.inRange(hsv_image, lower_red, upper_red)
 
     mask = np.zeros_like(blue_mask)
 
@@ -162,6 +169,9 @@ def treeEnumerationScript():
     arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
     img1 = cv2.imdecode(arr, -1)
 
+    if img1.shape[2] == 4:
+        img1 = cv2.cvtColor(img1, cv2.COLOR_RGBA2RGB)
+
     path_to_model = "D:/SIHMODELS/TreeEnumeration.pth"
     loaded_model = main.deepforest()
     loaded_model.model.load_state_dict(torch.load(path_to_model))
@@ -191,6 +201,7 @@ def treeEnumerationScript():
 
     output['enumeratedImageLink'] =  blob.public_url
 
+    os.remove(os.getcwd() + "\\assets\\" + imageID + "_____TreeEnumeratedImage.png")
     return jsonify(output)
 
 

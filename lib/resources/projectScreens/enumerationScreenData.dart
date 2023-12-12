@@ -13,37 +13,12 @@ class EnumScreenData extends ChangeNotifier {
     BuildContext context,
     String projectID,
   ) {
-    final screenSize = MediaQuery.of(context).size;
     if (snapshot!["isMapped"]) {
       if (snapshot["isEnumerated"]) {
         return SingleChildScrollView(
           child: Center(
               child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        height: 5,
-                        width: screenSize.width * 0.232,
-                      ),
-                      Container(
-                        color: Color.fromARGB(255, 69, 170, 173),
-                        height: 5,
-                        width: screenSize.width * 0.232,
-                      ),
-                      SizedBox(
-                        height: 5,
-                        width: screenSize.width * 0.232,
-                      ),
-                      SizedBox(
-                        height: 5,
-                        width: screenSize.width * 0.232,
-                      ),
-                    ]),
-              ),
               Text(
                 "Marked Polygon Area",
                 style: TextStyle(
@@ -89,30 +64,6 @@ class EnumScreenData extends ChangeNotifier {
           child: Center(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 8.0),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: 5,
-                          width: screenSize.width * 0.232,
-                        ),
-                        Container(
-                          color: Color.fromARGB(255, 69, 170, 173),
-                          height: 5,
-                          width: screenSize.width * 0.232,
-                        ),
-                        SizedBox(
-                          height: 5,
-                          width: screenSize.width * 0.232,
-                        ),
-                        SizedBox(
-                          height: 5,
-                          width: screenSize.width * 0.232,
-                        ),
-                      ]),
-                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -169,7 +120,7 @@ class EnumScreenData extends ChangeNotifier {
                       notifyListeners();
 
                       String url =
-                          "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithPolygonMasked"]}";
+                          "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithPolygonUnmasked"]}";
 
                       Uri uri = Uri.parse(url);
                       var data = await apiResponse(uri);
@@ -197,23 +148,6 @@ class EnumScreenData extends ChangeNotifier {
                         "treeCount": treeCount,
                       };
                       notifyListeners();
-
-                      // String url =
-                      //     "http://10.0.2.2:5000/treecount?imgPath=${snapshot.data!["map"]["satelliteImageWithPolygonMasked"]}&ProjectID=$PID";
-
-                      // Uri uri = Uri.parse(url);
-                      // var data = await DownloadImage(uri);
-                      // var decodedData = jsonDecode(data);
-                      // var queryText = decodedData['treesnumber'];
-                      // print(queryText);
-                      //
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => MapSample(
-                      //       projectID: PID,
-                      //     ),
-                      //   ),
-                      // );
                     },
                     child: Text("Enumerate"),
                   ),
