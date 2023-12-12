@@ -46,6 +46,7 @@ dependencies:
   flutter_speed_dial: ^7.0.0
   google_maps_flutter: ^2.5.0
   maps_toolkit: ^3.0.0
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:
