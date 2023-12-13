@@ -82,7 +82,7 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
                     style: const TextStyle(fontSize: 16, color: Colors.white70),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                 ],
                 _buildTabBar(),
               ],
@@ -99,9 +99,9 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
   }
 
   PreferredSizeWidget _buildTabBar() {
-    final double indicatorWidth = 300;
-    final double indicatorHeight = 40;
-    final double topBottomPadding = (60 - indicatorHeight) / 2;
+    const double indicatorWidth = 300;
+    const double indicatorHeight = 40;
+    const double topBottomPadding = (60 - indicatorHeight) / 2;
 
     return PreferredSize(
       preferredSize: const Size.fromHeight(60),
@@ -111,7 +111,7 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 239, 248, 222),
+            color: const Color.fromARGB(255, 239, 248, 222),
             borderRadius: BorderRadius.circular(20),
           ),
           child: TabBar(
@@ -158,7 +158,7 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
         isMapDataFulfilled
             ? const Center(child: Text('Species Content'))
             : _disabledTabContent(),
-        isMapDataFulfilled ? DashBoardScreen() : _disabledTabContent(),
+        isMapDataFulfilled ? const DashBoardScreen() : _disabledTabContent(),
       ],
     );
   }

@@ -134,7 +134,7 @@ class EnumScreenData extends ChangeNotifier {
                       notifyListeners();
 
                       String url =
-                          "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithPolygonMasked"]}";
+                          "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithPolygonUnmasked"]}";
 
                       Uri uri = Uri.parse(url);
                       var data = await apiResponse(uri);

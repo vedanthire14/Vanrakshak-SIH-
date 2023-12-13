@@ -151,7 +151,7 @@ def treeEnumerationScript():
     if img1.shape[2] == 4:
         img1 = cv2.cvtColor(img1, cv2.COLOR_RGBA2RGB)
 
-    path_to_model = "D:/SIHMODELS/TreeEnumeration.pth"
+    path_to_model = "D:/SIHMODELS/HireGod.pth"
     loaded_model = main.deepforest()
     loaded_model.model.load_state_dict(torch.load(path_to_model))
     loaded_model.eval()
