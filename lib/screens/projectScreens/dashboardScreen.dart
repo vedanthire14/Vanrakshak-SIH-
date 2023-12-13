@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vanrakshak/screens/mainScreens/mainScreen.dart';
+
 import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
 import 'package:vanrakshak/widgets/Dashboard/areaCoordinateCard.dart';
 
@@ -24,7 +24,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-  
+      backgroundColor: Frontcolor,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),
@@ -53,77 +53,51 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ],
               ),
               SizedBox(height: 20),
-              DashBoardDetailCard(
-                title: 'Tree Analysis',
-                description: 'Description Here',
-                image: Image.asset('assets/tree_png.png'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
-                  );
-                },
+              Row(
+                children: [
+                  DashboardCard(
+                      title: "Trial",
+                      image: Image.asset('assets/project/projectTile50.png'),
+                      description: 'Description Here',
+                      additionalText: 'Additional Text Here',
+                      MainTitle: "TREE ANALYSIS",
+                      onTap: () {}),
+                  DashboardCard(
+                      title: "Trial",
+                      image: Image.asset(
+                        'assets/project/projectTile50.png',
+                      ),
+                      description: 'Description Here',
+                      additionalText: 'Additional Text Here',
+                      MainTitle: "TREE ENUMERATION",
+                      onTap: () {}),
+                ],
               ),
               SizedBox(height: 20),
-              DashBoardDetailCard(
-                title: 'Terrain Analysis',
-                description: 'Description Here',
-                image: Image.asset('assets/tree_png.png'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
-                  );
-                },
+              Row(
+                children: [
+                  DashboardCard(
+                      title: "Trial",
+                      image: Image.asset(
+                        'assets/project/projectTile50.png',
+                        fit: BoxFit.fill,
+                      ),
+                      description: 'Description Here',
+                      additionalText: 'Additional Text Here',
+                      MainTitle: "SPECIES ANALYSIS",
+                      onTap: () {}),
+                  DashboardCard(
+                      title: "Trial",
+                      image: Image.asset(
+                        'assets/project/projectTile50.png',
+                      ),
+                      description: 'Description Here',
+                      additionalText: 'Additional Text Here',
+                      MainTitle: "TREE REALLOCATION",
+                      onTap: () {}),
+                ],
               ),
               SizedBox(height: 20),
-              DashBoardDetailCard(
-                title: 'Tree Enum',
-                description: 'Description Here',
-                image: Image.asset('assets/bar_graph.png'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
-                  );
-                },
-              ),
-              SizedBox(height: 20),
-              DashBoardDetailCard(
-                title: 'Species',
-                description: 'Description Here',
-                image: Image.asset('assets/bar_graph.png'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
-                  );
-                },
-              ),
-              SizedBox(height: 20),
-              DashBoardDetailCard(
-                title: 'Soil Analysis',
-                description: 'Description Here',
-                image: Image.asset('assets/bar_graph.png'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
-                  );
-                },
-              ),
-              SizedBox(height: 20),
-              DashBoardDetailCard(
-                title: 'Reallocation',
-                description: 'Description Here',
-                image: Image.asset('assets/bar_graph.png'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
-                  );
-                },
-              ),
             ],
           ),
         ),
