@@ -72,7 +72,7 @@ class EnumScreenData extends ChangeNotifier {
               ),
               SizedBox(height: 20),
               Image.network(
-                snapshot["map"]["satelliteImageWithPolygonMasked"],
+                snapshot["map"]["satelliteImageWithPolygonUnmasked"],
                 height: 300,
               ),
               SizedBox(height: 40),
@@ -98,7 +98,7 @@ class EnumScreenData extends ChangeNotifier {
                   height: 20,
                 ),
                 Text(
-                  "Marked Polygon Area",
+                  "Marked Polygon Areaa",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15.0,
@@ -109,13 +109,24 @@ class EnumScreenData extends ChangeNotifier {
                   height: 20,
                 ),
                 Image.network(
-                  snapshot["map"]["satelliteImageWithPolygonMasked"],
+                  snapshot["map"]["satelliteImageWithNoPolygon"],
                   height: 300,
                   fit: BoxFit.cover,
                 ),
                 SizedBox(
                   height: 20,
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                // Image.network(
+                //   snapshot["map"]["satelliteImageWithPolygonMasked"],
+                //   height: 300,
+                //   fit: BoxFit.cover,
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
                 Text(
                   "Enumeration Not Completed Yet",
                   style: TextStyle(
@@ -134,7 +145,7 @@ class EnumScreenData extends ChangeNotifier {
                       notifyListeners();
 
                       String url =
-                          "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithPolygonUnmasked"]}";
+                          "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
 
                       Uri uri = Uri.parse(url);
                       var data = await apiResponse(uri);
