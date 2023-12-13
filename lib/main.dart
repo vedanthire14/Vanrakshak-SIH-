@@ -10,7 +10,6 @@ import 'package:vanrakshak/resources/projectScreens/enumerationScreenData.dart';
 import 'package:vanrakshak/resources/projectScreens/mappingScreenData.dart';
 import 'package:vanrakshak/screens/introSlider/introSlider.dart';
 import 'package:vanrakshak/screens/mainScreens/mainScreen.dart';
-import 'package:vanrakshak/screens/projectScreens/dashboardScreen.dart';
 import 'firebase_options.dart';
 
 void main() async {
