@@ -297,6 +297,8 @@ class MapScreenState extends State<MapScreen> {
             var decodedData = jsonDecode(jsonData);
             String output = decodedData['result'];
             String satelliteImageLink = decodedData['satelliteImageUnmasked'];
+            String satelliteImageNoPolygonLink =
+                decodedData['satelliteImageNoPolygon'];
             String matelliteImageMaskedLink =
                 decodedData['satelliteImageMasked'];
             List elevationList = decodedData['elevationList'];
@@ -321,6 +323,7 @@ class MapScreenState extends State<MapScreen> {
                 "areaMeters": areaInSquareMeters,
                 "satelliteImageWithPolygonUnmasked": satelliteImageLink,
                 "satelliteImageWithPolygonMasked": matelliteImageMaskedLink,
+                "satelliteImageWithNoPolygon": satelliteImageNoPolygonLink,
                 "elevationList": elevationList,
                 "zoomLevel": currentZoom
               };
