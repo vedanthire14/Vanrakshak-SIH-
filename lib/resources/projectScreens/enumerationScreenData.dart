@@ -59,7 +59,7 @@ class EnumScreenData extends ChangeNotifier {
                 SizedBox(height: 20),
                 MapImageCard(
                     imageUrl: snapshot["map"]["satelliteImageWithNoPolygon"],
-                    text: "Marked Polygon Area"),
+                    text: "MARKED POLYGON IN AREA"),
                 SizedBox(height: 20),
                 SizedBox(height: 40),
               ],
@@ -78,7 +78,7 @@ class EnumScreenData extends ChangeNotifier {
                   ),
                   MapImageCard(
                       imageUrl: snapshot["map"]["satelliteImageWithNoPolygon"],
-                      text: "Construction Polygon"),
+                      text: "CONSTRUSTION POLYGON"),
                   SizedBox(
                     height: 20,
                   ),

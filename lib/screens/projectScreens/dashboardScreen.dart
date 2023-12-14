@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
 import 'package:vanrakshak/widgets/Dashboard/areaCoordinateCard.dart';
 
@@ -47,20 +46,20 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               //   polygonCoordinates: polygonCoordinates,
               // ), //In widget Section
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.more_horiz,
-                    color: Colors.black,
-                    size: 30.0,
-                  ),
-                  Text("Details :",
-                      style: GoogleFonts.openSans(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold)),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     const Icon(
+              //       Icons.more_horiz,
+              //       color: Colors.black,
+              //       size: 30.0,
+              //     ),
+              //     Text("Details :",
+              //         style: GoogleFonts.openSans(
+              //             color: Colors.black,
+              //             fontSize: 20.0,
+              //             fontWeight: FontWeight.bold)),
+              //   ],
+              // ),
               const SizedBox(height: 20),
               Row(
                 children: [
