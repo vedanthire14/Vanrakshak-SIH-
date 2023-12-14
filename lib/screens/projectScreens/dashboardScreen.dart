@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
-import 'package:vanrakshak/widgets/Dashboard/areaCoordinateCard.dart';
-
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({super.key});
 
@@ -108,7 +104,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
+      ),
+    );
+  }
 }

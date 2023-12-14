@@ -48,6 +48,11 @@ dependencies:
   maps_toolkit: ^3.0.0
   google_fonts: ^6.1.0
   fl_chart: ^0.65.0
+  path_provider: ^2.1.1
+  open_file: ^3.3.2
+  pdf: ^3.10.7
+  permission_handler: ^11.1.0
+  printing: ^5.11.1
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +75,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -81,6 +90,7 @@ flutter:
     - assets/authScreen/
     - assets/main/
     - assets/project/
+    - assets/fonts/Roboto-Regular.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
