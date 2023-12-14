@@ -26,35 +26,33 @@ class _PieChartWidgetState extends State<PieChartWidget> {
           //Overflow Avoid karne
           height: 200,
           width: 200,
-          child: RepaintBoundary(
-            child: PieChart(
-              PieChartData(
-                //This is the Touch Functionality
-                pieTouchData: PieTouchData(
-                  touchCallback: (FlTouchEvent event,
-                          PieTouchResponse? pieTouchResponse) // Here
-                      {
-                    setState(() {
-                      if (event is FlLongPressStart ||
-                          event is FlLongPressEnd ||
-                          pieTouchResponse == null ||
-                          pieTouchResponse.touchedSection == null) {
-                        touchedIndex = -1;
-                        details = [];
-                      } else {
-                        touchedIndex = pieTouchResponse.touchedSection!
-                            .touchedSectionIndex; //  Here we get the index of the touched section of the pie chart
-                        details = getDetailsForSection(touchedIndex);
-                      }
-                    });
-                  },
-                ),
-                startDegreeOffset: 180, // Rotate the chart by 180 degrees
-                sectionsSpace: 0, // No space between sections
-                centerSpaceRadius: 50, // Radius of the center
-                sections:
-                    buildSections(), // Here we get the sections of the pie chart
+          child: PieChart(
+            PieChartData(
+              //This is the Touch Functionality
+              pieTouchData: PieTouchData(
+                touchCallback: (FlTouchEvent event,
+                        PieTouchResponse? pieTouchResponse) // Here
+                    {
+                  setState(() {
+                    if (event is FlLongPressStart ||
+                        event is FlLongPressEnd ||
+                        pieTouchResponse == null ||
+                        pieTouchResponse.touchedSection == null) {
+                      touchedIndex = -1;
+                      details = [];
+                    } else {
+                      touchedIndex = pieTouchResponse.touchedSection!
+                          .touchedSectionIndex; //  Here we get the index of the touched section of the pie chart
+                      details = getDetailsForSection(touchedIndex);
+                    }
+                  });
+                },
               ),
+              startDegreeOffset: 180, // Rotate the chart by 180 degrees
+              sectionsSpace: 0, // No space between sections
+              centerSpaceRadius: 50, // Radius of the center
+              sections:
+                  buildSections(), // Here we get the sections of the pie chart
             ),
           ),
         ),
