@@ -109,17 +109,33 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
         type:
             MaterialType.transparency, // Set the material type to transparency
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 239, 248, 222),
             borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: const Offset(0, 0), // changes position of shadow
+              ),
+            ],
           ),
           child: TabBar(
             indicatorColor:
                 Colors.transparent, // Set indicator color to transparent
             indicator: BoxDecoration(
               color: Colors.teal,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.3),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 1), // changes position of shadow
+                ),
+              ],
             ),
             indicatorSize: TabBarIndicatorSize.tab,
             indicatorPadding: EdgeInsets.fromLTRB(
@@ -147,7 +163,7 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
   Widget _buildTabView(
       MapScreenData mapScreenData, EnumScreenData enumScreenData) {
     return TabBarView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         (loading)
             ? Container()

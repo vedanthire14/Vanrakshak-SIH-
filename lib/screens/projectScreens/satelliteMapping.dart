@@ -314,6 +314,8 @@ class MapScreenState extends State<MapScreen> {
             String matelliteImageMaskedLink =
                 decodedData['satelliteImageMasked'];
             List elevationList = decodedData['elevationList'];
+            String projectLocation = decodedData['locationFromLatLong'];
+
             if (output == "The map has successfully been created") {
               setState(() {
                 loading = false;
@@ -337,7 +339,8 @@ class MapScreenState extends State<MapScreen> {
                 "satelliteImageWithPolygonMasked": matelliteImageMaskedLink,
                 "satelliteImageWithNoPolygon": satelliteImageNoPolygonLink,
                 "elevationList": elevationList,
-                "zoomLevel": currentZoom
+                "zoomLevel": currentZoom,
+                "projectLocation": projectLocation
               };
               await FirebaseFirestore.instance
                   .collection("projects")
