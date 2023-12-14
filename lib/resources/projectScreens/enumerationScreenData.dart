@@ -72,7 +72,7 @@ class EnumScreenData extends ChangeNotifier {
               ),
               SizedBox(height: 20),
               Image.network(
-                snapshot["map"]["satelliteImageWithPolygonUnmasked"],
+                snapshot["map"]["satelliteImageWithNoPolygon"],
                 height: 300,
               ),
               SizedBox(height: 40),
