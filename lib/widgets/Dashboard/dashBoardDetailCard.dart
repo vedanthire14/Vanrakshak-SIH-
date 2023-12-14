@@ -37,21 +37,23 @@ class _DashboardCardState extends State<DashboardCard> {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 160,
-            height: 125,
+          SizedBox(
+            width: 125,
+            height: 100,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(6.0),
               child: widget.image,
             ),
           ),
-          SizedBox(
-            height: 8.0,
+          const SizedBox(
+            height: 10.0,
           ),
           Text(
             widget.MainTitle,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.teal,
               fontSize: 12.0,
               fontWeight: FontWeight.bold,
@@ -67,7 +69,7 @@ class _DashboardCardState extends State<DashboardCard> {
       text,
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.bold,
         color: Colors.black,
@@ -76,7 +78,7 @@ class _DashboardCardState extends State<DashboardCard> {
   }
 
   Widget _buildViewDetailsButton() {
-    return Container(
+    return SizedBox(
       height: 30.0,
       width: 119.0,
       child: ElevatedButton(
@@ -87,7 +89,7 @@ class _DashboardCardState extends State<DashboardCard> {
           ),
         ),
         onPressed: widget.onTap,
-        child: Text(
+        child: const Text(
           'View Details',
           style: TextStyle(
             color: Colors.white,
@@ -100,7 +102,7 @@ class _DashboardCardState extends State<DashboardCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width *
           0.45, // Adjust the width for two cards side by side
       child: Card(
@@ -110,25 +112,25 @@ class _DashboardCardState extends State<DashboardCard> {
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               _buildImage(),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildText(widget.title),
-                  SizedBox(height: 4.0),
+                  const SizedBox(height: 4.0),
                   _buildText(widget.description),
-                  SizedBox(height: 4.0),
+                  const SizedBox(height: 4.0),
                   _buildText(widget.additionalText),
                 ],
               ),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               _buildViewDetailsButton(),
             ],
           ),

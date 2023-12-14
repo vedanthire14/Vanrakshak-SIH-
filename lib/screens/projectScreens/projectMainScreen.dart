@@ -147,7 +147,7 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
   Widget _buildTabView(
       MapScreenData mapScreenData, EnumScreenData enumScreenData) {
     return TabBarView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         (loading)
             ? Container()
