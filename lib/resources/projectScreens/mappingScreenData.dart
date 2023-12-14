@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vanrakshak/screens/projectScreens/satelliteMapping.dart';
+import 'package:vanrakshak/widgets/project/bulletPoint.dart';
+import 'package:vanrakshak/widgets/project/mappingScreen/mapImageCard.dart';
 
 class MapScreenData extends ChangeNotifier {
   final db = FirebaseFirestore.instance;
@@ -36,60 +38,77 @@ class MapScreenData extends ChangeNotifier {
         ),
       );
 
+      GoogleMap googleMapWidget = GoogleMap(
+        polygons: polygon,
+        mapType: MapType.hybrid,
+        initialCameraPosition: CameraPosition(
+          zoom: snapshot["map"]["zoomLevel"] - 1,
+          target: LatLng(
+            snapshot["map"]["centerCoordinate"][0],
+            snapshot["map"]["centerCoordinate"][1],
+          ),
+        ),
+      );
+
       return SingleChildScrollView(
-        child: Center(
-            child: Column(
-          children: [
-            SizedBox(height: 20),
-            Text(
-              "Satellite Image With Polygon",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20),
-            Image.network(
-              snapshot["map"]["satelliteImageWithPolygonUnmasked"],
-              height: 300,
-            ),
-            SizedBox(height: 40),
-            // Text("Polygon Area Masked Out"),
-            // SizedBox(height: 20),
-            // // Image.network(
-            //   snapshot.data!["map"]["satelliteImageWithPolygonMasked"],
-            //   height: 300,
-            // ),
-            Text(
-              "Integrated Google Maps",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              height: 300,
-              width: 300,
-              child: GoogleMap(
-                polygons: polygon,
-                mapType: MapType.hybrid,
-                // minMaxZoomPreference: MinMaxZoomPreference(14, 18),
-                initialCameraPosition: CameraPosition(
-                  // tilt: 45,
-                  zoom: snapshot["map"]["zoomLevel"] - 1,
-                  target: LatLng(
-                    snapshot["map"]["centerCoordinate"][0],
-                    snapshot["map"]["centerCoordinate"][1],
+        child: Container(
+          color: Color.fromARGB(255, 239, 248, 222),
+          child: Center(
+              child: Column(
+            children: [
+              SizedBox(height: 40),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("DETAILS OF THE POLYGON AREA ",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 10),
+                  BulletPoint(
+                    Title: "AREA NAME ",
+                    Detail: "${snapshot["map"]["areaName"]}",
                   ),
-                ),
+                  BulletPoint(
+                    Title: "AREA VALUE: ",
+                    Detail: "${snapshot["map"]["areaValue"]}",
+                  ),
+                  BulletPoint(
+                    Title: "LAT/LONG LIST: ",
+                    Detail: "123456",
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 50),
-          ],
-        )),
+              Divider(
+                color: Colors.black,
+                thickness: 1,
+                indent: 20,
+                endIndent: 20,
+              ),
+
+              SizedBox(height: 20),
+              MapImageCard(
+                  imageUrl: snapshot["map"]
+                      ["satelliteImageWithPolygonUnmasked"],
+                  text: "Satellite Image With Polygon"),
+              SizedBox(
+                height: 30,
+              ),
+
+              SizedBox(height: 20),
+              //HERE
+              GoogleMapsCard(
+                googleMap: googleMapWidget,
+                cardWidth: MediaQuery.of(context).size.width *
+                    0.9, // Set the card width based on screen width
+                mapHeight: 300, // Set the height of the GoogleMap widget
+              ),
+              //TO HERE
+
+              SizedBox(height: 50),
+            ],
+          )),
+        ),
       );
     } else {
       return SingleChildScrollView(
