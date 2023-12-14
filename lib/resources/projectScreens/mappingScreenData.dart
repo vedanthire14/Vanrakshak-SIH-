@@ -83,7 +83,6 @@ class MapScreenData extends ChangeNotifier {
                     BulletPoint(
                       Title: "AREA NAME ",
                       Detail: "${snapshot["location"]}",
-                      
                     ),
                     BulletPoint(
                       Title: "AREA VALUE: ",
