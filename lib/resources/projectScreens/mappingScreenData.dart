@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vanrakshak/screens/projectScreens/satelliteMapping.dart';
 import 'package:vanrakshak/widgets/project/bulletPoint.dart';
+import 'package:vanrakshak/widgets/project/instructionsCard.dart';
 import 'package:vanrakshak/widgets/project/mappingScreen/mapImageCard.dart';
 
 class MapScreenData extends ChangeNotifier {
@@ -76,9 +77,14 @@ class MapScreenData extends ChangeNotifier {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("DETAILS OF THE POLYGON AREA ",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                    Text(
+                      "DETAILS OF THE POLYGON AREA ",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 69, 170, 173),
+                      ),
+                    ),
                     SizedBox(height: 10),
                     BulletPoint(
                       Title: "AREA NAME ",
@@ -203,35 +209,33 @@ class MapScreenData extends ChangeNotifier {
                 SizedBox(
                   height: 20,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                InstructionsCard(
+                  cardItems: [
                     Text(
-                      "Steps for Mapping ",
+                      "STEPS FOR MAPPING",
                       style: TextStyle(
+                        color: Color.fromARGB(255, 69, 170, 173),
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          BulletPoint(
-                              Title: "Mark The Points on Map", Detail: ""),
-                          BulletPoint(
-                            Title: "Click the settings icon(bottom left)",
-                            Detail: "",
-                          ),
-                          BulletPoint(
-                            Title: "Click on download button",
-                            Detail: "",
-                          )
-                        ],
-                      ),
+                    SizedBox(height: 10),
+                    BulletPoint(
+                      Title: "Mark The Points on Map",
+                      Detail: "",
+                    ),
+                    BulletPoint(
+                      Title: "Click the settings icon(bottom left)",
+                      Detail: "",
+                    ),
+                    BulletPoint(
+                      Title: "Click on download button",
+                      Detail: "",
                     )
                   ],
+                ),
+                SizedBox(
+                  height: 20,
                 )
               ],
             ),
