@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vanrakshak/resources/api/apiResponse.dart';
+import 'package:vanrakshak/widgets/project/bulletPoint.dart';
+import 'package:vanrakshak/widgets/project/mappingScreen/mapImageCard.dart';
 
 class EnumScreenData extends ChangeNotifier {
   final db = FirebaseFirestore.instance;
@@ -16,78 +18,53 @@ class EnumScreenData extends ChangeNotifier {
     if (snapshot!["isMapped"]) {
       if (snapshot["isEnumerated"]) {
         return SingleChildScrollView(
-          child: Center(
-              child: Column(
-            children: [
-              SizedBox(height: 40),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Details of Enumeration: ",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 10),
-                  BulletPoint(
-                    Title: "Tree Count: ",
-                    Detail: "${snapshot["enum"]["treeCount"]}",
-                  ),
-                  BulletPoint(
-                    Title: "Forest Area: ",
-                    Detail: "${snapshot["map"]["forestArea"]}",
-                  ),
-                  BulletPoint(
-                    Title: "Total Area: ",
-                    Detail: "${snapshot["map"]["totalArea"]}",
-                  ),
-                ],
-              ),
-              Divider(
-                color: Colors.black,
-                thickness: 1,
-                indent: 20,
-                endIndent: 20,
-              ),
-              SizedBox(height: 20),
-              Text(
-                "Tree Enumeration In Area",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
+          child: Container(
+            color: Color.fromARGB(255, 239, 248, 222),
+            child: Center(
+                child: Column(
+              children: [
+                SizedBox(height: 40),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Details of Enumeration: ",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 10),
+                    BulletPoint(
+                      Title: "Tree Count: ",
+                      Detail: "${snapshot["enum"]["treeCount"]}",
+                    ),
+                    BulletPoint(
+                      Title: "Forest Area: ",
+                      Detail: "${snapshot["map"]["forestArea"]}",
+                    ),
+                    BulletPoint(
+                      Title: "Total Area: ",
+                      Detail: "${snapshot["map"]["totalArea"]}",
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(height: 20),
-              Image.network(
-                snapshot["enum"]["enumeratedImage"],
-                height: 300,
-              ),
-              Text(
-                "Marked Polygon Area",
-                style: TextStyle(
+                Divider(
                   color: Colors.black,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
+                  thickness: 1,
+                  indent: 20,
+                  endIndent: 20,
                 ),
-              ),
-              SizedBox(height: 20),
-              Image.network(
-                snapshot["map"]["satelliteImageWithNoPolygon"],
-                height: 300,
-              ),
-              SizedBox(height: 40),
-              SizedBox(height: 20),
-              Text(
-                "Total Trees in Polygon - ${snapshot["enum"]["treeCount"]}",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 40),
-            ],
-          )),
+                SizedBox(height: 20),
+                MapImageCard(
+                    imageUrl: snapshot["enum"]["enumeratedImage"],
+                    text: "TREE ENUMERATION IN AREA"),
+                SizedBox(height: 20),
+                MapImageCard(
+                    imageUrl: snapshot["map"]["satelliteImageWithNoPolygon"],
+                    text: "Marked Polygon Area"),
+                SizedBox(height: 20),
+                SizedBox(height: 40),
+              ],
+            )),
+          ),
         );
       } else {
         return SingleChildScrollView(
@@ -203,34 +180,5 @@ class EnumScreenData extends ChangeNotifier {
         ),
       );
     }
-  }
-}
-
-class BulletPoint extends StatelessWidget {
-  final String Title;
-  final String Detail;
-
-  BulletPoint({required this.Title, required this.Detail});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          height: 10,
-          width: 10,
-          decoration: BoxDecoration(
-            color: Colors.teal,
-            shape: BoxShape.circle,
-          ),
-        ),
-        SizedBox(width: 10),
-        Text(Title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        SizedBox(width: 10),
-        Text(Detail, style: TextStyle(fontSize: 16)),
-      ],
-    );
   }
 }
