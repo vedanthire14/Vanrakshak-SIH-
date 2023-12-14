@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vanrakshak/screens/projectScreens/pdfScreen.dart';
 
 import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
 import 'package:vanrakshak/widgets/Dashboard/areaCoordinateCard.dart';
@@ -12,11 +13,6 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
-  final String predefinedProjectName = "Vanrakshak";
-  final String predefinedLocation = "Hyderabad";
-  final String predefinedState = "Telangana";
-  final String areaOfMarkedRegion = "12345";
-  final List<String> polygonCoordinates = ["12345", "12345", "12345", "12345"];
   final Color Bgcolor = Color.fromARGB(255, 39, 159, 130);
   final Color Frontcolor = Color.fromARGB(255, 239, 248, 222);
   final Color buttoncolor = Color.fromARGB(255, 69, 170, 173);
@@ -32,6 +28,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20),
+             
+              SizedBox(height: 20),
               DashBoardDetailCard(
                   location: "Hyderabad",
                   state: "Telangana",
@@ -41,11 +39,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   coordinate4: "12345",
                   acres: "22",
                   metersSquared: "22"),
-
-              // AreaCoordinateCard(
-              //   areaOfMarkedRegion: areaOfMarkedRegion,
-              //   polygonCoordinates: polygonCoordinates,
-              // ), //In widget Section
               SizedBox(height: 20),
               Row(
                 children: [

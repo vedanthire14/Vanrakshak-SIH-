@@ -10,6 +10,7 @@ import 'package:vanrakshak/resources/projectScreens/enumerationScreenData.dart';
 import 'package:vanrakshak/resources/projectScreens/mappingScreenData.dart';
 import 'package:vanrakshak/screens/introSlider/introSlider.dart';
 import 'package:vanrakshak/screens/mainScreens/mainScreen.dart';
+import 'package:vanrakshak/screens/projectScreens/pdfScreen.dart';
 import 'package:vanrakshak/screens/projectScreens/soilAnalysisScreen.dart';
 import 'firebase_options.dart';
 
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, userSnp) {
               if (userSnp.hasData) {
-                return MainScreen();
+                return PdfPage();
               }
               return MyLiquidSwipe();
             },
