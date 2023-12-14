@@ -79,78 +79,90 @@ class MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          //No back button
+          automaticallyImplyLeading: false,
+          backgroundColor: const Color.fromARGB(255, 69, 170, 173),
+          title: const Text('Satellite Mapping',
+              style: TextStyle(
+                color: Color.fromARGB(255, 239, 248, 222),
+              ))),
       backgroundColor: const Color.fromARGB(255, 239, 248, 222),
       body: (loading)
           ? const Center(
               child: CircularProgressIndicator(
                   color: Color.fromARGB(255, 69, 170, 173)))
           : SafeArea(
-              child: Column(
+              child: Stack(
                 children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 69, 170, 173),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    height: 50,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _searchController,
-                            decoration: const InputDecoration(
-                              hintText: 'Search for a location...',
-                              hintStyle: TextStyle(color: Colors.black87),
-                              border: InputBorder.none,
+                  googlemap.GoogleMap(
+                    // minMaxZoomPreference: MinMaxZoomPreference(15, 18),
+                    onCameraMove: onCameraMove,
+                    polygons: _polygon,
+                    markers: _marker,
+                    onTap: (argument) {
+                      points.add(argument);
+                      coordinates.add(toolkit.LatLng(
+                          argument.latitude, argument.longitude));
+                      setState(() {
+                        _marker.add(googlemap.Marker(
+                          markerId: googlemap.MarkerId(argument.toString()),
+                          position: argument,
+                          icon: googlemap.BitmapDescriptor.defaultMarkerWithHue(
+                              googlemap.BitmapDescriptor.hueGreen),
+                        ));
+                      });
+                      // print(points);
+                    },
+                    mapType: googlemap.MapType.hybrid,
+                    initialCameraPosition: _kGooglePlex,
+                    onMapCreated: (googlemap.GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                  ),
+                  Positioned(
+                    top: 15,
+                    left: 20,
+                    right: 20,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          )),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      height: 50,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              decoration: const InputDecoration(
+                                hintText: 'SEARCH',
+                                hintStyle: TextStyle(color: Colors.black87),
+                                border: InputBorder.none,
+                              ),
+                              style: const TextStyle(color: Colors.black87),
+                              onSubmitted: (value) {
+                                searchLocation(value);
+                              },
                             ),
-                            style: const TextStyle(color: Colors.black87),
-                            onSubmitted: (value) {
-                              searchLocation(value);
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              if (_searchController.text.isNotEmpty) {
+                                searchLocation(_searchController.text);
+                              }
                             },
+                            icon: const Icon(
+                              Icons.search,
+                              color: Colors.black87,
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            if (_searchController.text.isNotEmpty) {
-                              searchLocation(_searchController.text);
-                            }
-                          },
-                          icon: const Icon(
-                            Icons.search,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: googlemap.GoogleMap(
-                      // minMaxZoomPreference: MinMaxZoomPreference(15, 18),
-                      onCameraMove: onCameraMove,
-                      polygons: _polygon,
-                      markers: _marker,
-                      onTap: (argument) {
-                        points.add(argument);
-                        coordinates.add(toolkit.LatLng(
-                            argument.latitude, argument.longitude));
-                        setState(() {
-                          _marker.add(googlemap.Marker(
-                            markerId: googlemap.MarkerId(argument.toString()),
-                            position: argument,
-                            icon:
-                                googlemap.BitmapDescriptor.defaultMarkerWithHue(
-                                    googlemap.BitmapDescriptor.hueGreen),
-                          ));
-                        });
-                        // print(points);
-                      },
-                      mapType: googlemap.MapType.hybrid,
-                      initialCameraPosition: _kGooglePlex,
-                      onMapCreated: (googlemap.GoogleMapController controller) {
-                        _controller.complete(controller);
-                      },
-                    ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -362,8 +374,9 @@ class MapScreenState extends State<MapScreen> {
         ),
       ],
       child: const Icon(
-        Icons.add,
-        color: Color.fromARGB(255, 0, 0, 0),
+        Icons.settings,
+        color: Color.fromARGB(255, 255, 255, 255),
+        size: 30,
       ),
     );
   }

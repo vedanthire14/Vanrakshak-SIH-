@@ -68,93 +68,116 @@ class EnumScreenData extends ChangeNotifier {
         );
       } else {
         return SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Marked Polygon Areaa",
-                  style: TextStyle(
+          child: Container(
+            color: Color.fromARGB(255, 239, 248, 222),
+            child: Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  MapImageCard(
+                      imageUrl: snapshot["map"]["satelliteImageWithNoPolygon"],
+                      text: "Construction Polygon"),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 250,
+                    child: SizedBox(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 69, 170, 173),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10.0), // Adjust the radius as needed
+                          ),
+                        ),
+                        onPressed: () async {
+                          loading = true;
+                          notifyListeners();
+
+                          String url =
+                              "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
+
+                          Uri uri = Uri.parse(url);
+                          var data = await apiResponse(uri);
+                          var decodedData = jsonDecode(data);
+                          int treeCount = decodedData['treeCount'];
+                          String imageLink = decodedData['enumeratedImageLink'];
+
+                          FirebaseFirestore.instance
+                              .collection("projects")
+                              .doc(projectID)
+                              .update({
+                            "isEnumerated": true,
+                            "enum": {
+                              "enumeratedImage": imageLink,
+                              "treeCount": treeCount,
+                            }
+                          }).then((value) {
+                            loading = false;
+                            notifyListeners();
+                          });
+
+                          snapshot["isEnumerated"] = true;
+                          snapshot["enum"] = {
+                            "enumeratedImage": imageLink,
+                            "treeCount": treeCount,
+                          };
+                          notifyListeners();
+                        },
+                        child: Text("ENUMERATE",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 20)),
+                      ),
+                    ),
+                  ),
+                  Divider(
                     color: Colors.black,
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
+                    thickness: 1,
+                    indent: 20,
+                    endIndent: 20,
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Image.network(
-                  snapshot["map"]["satelliteImageWithNoPolygon"],
-                  height: 300,
-                  fit: BoxFit.cover,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                // Image.network(
-                //   snapshot["map"]["satelliteImageWithPolygonMasked"],
-                //   height: 300,
-                //   fit: BoxFit.cover,
-                // ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                Text(
-                  "Enumeration Not Completed Yet",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-                SizedBox(
-                  width: 100,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 69, 170, 173)),
-                    onPressed: () async {
-                      loading = true;
-                      notifyListeners();
-
-                      String url =
-                          "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
-
-                      Uri uri = Uri.parse(url);
-                      var data = await apiResponse(uri);
-                      var decodedData = jsonDecode(data);
-                      int treeCount = decodedData['treeCount'];
-                      String imageLink = decodedData['enumeratedImageLink'];
-
-                      FirebaseFirestore.instance
-                          .collection("projects")
-                          .doc(projectID)
-                          .update({
-                        "isEnumerated": true,
-                        "enum": {
-                          "enumeratedImage": imageLink,
-                          "treeCount": treeCount,
-                        }
-                      }).then((value) {
-                        loading = false;
-                        notifyListeners();
-                      });
-
-                      snapshot["isEnumerated"] = true;
-                      snapshot["enum"] = {
-                        "enumeratedImage": imageLink,
-                        "treeCount": treeCount,
-                      };
-                      notifyListeners();
-                    },
-                    child: Text("Enumerate"),
-                  ),
-                ),
-              ],
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "STEPS FOR ENUMERATION",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            BulletPoint(
+                                Title: "Perform Mapping if not done",
+                                Detail: ""),
+                            BulletPoint(
+                              Title: "Click on the Enumerate button",
+                              Detail: "",
+                            ),
+                            BulletPoint(
+                              Title: "Details of the Tree will be shown",
+                              Detail: "",
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         );
