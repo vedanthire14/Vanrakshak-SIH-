@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -6,7 +8,7 @@ class MapImageCard extends StatelessWidget {
   final String text;
   final Color frontColor = Color.fromARGB(255, 255, 255, 255);
   final double cardWidth;
-  final Color bgColor = Color.fromARGB(255, 39, 159, 130);
+  final Color bgColor = Color.fromARGB(255, 69, 170, 173);
 
   MapImageCard({
     Key? key,
@@ -82,7 +84,7 @@ class GoogleMapsCard extends StatelessWidget {
   final double cardWidth;
   final double mapHeight;
   final Color frontColor = const Color.fromARGB(255, 255, 255, 255);
-  final Color bgColor = const Color.fromARGB(255, 39, 159, 130);
+  final Color bgColor = const Color.fromARGB(255, 69, 170, 173);
 
   const GoogleMapsCard({
     Key? key,

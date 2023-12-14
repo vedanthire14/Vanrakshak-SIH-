@@ -14,16 +14,24 @@ class BulletPoint extends StatelessWidget {
         Container(
           height: 10,
           width: 10,
-          decoration: BoxDecoration(
-            color: Colors.teal,
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 69, 170, 173),
             shape: BoxShape.circle,
           ),
         ),
-        SizedBox(width: 10),
-        Text(Title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        SizedBox(width: 10),
-        Text(Detail, style: TextStyle(fontSize: 16)),
+        const SizedBox(width: 10),
+        Text(
+          Title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          Detail,
+          style: const TextStyle(fontSize: 16),
+        ),
       ],
     );
   }

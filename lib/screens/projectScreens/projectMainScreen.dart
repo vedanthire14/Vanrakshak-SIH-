@@ -71,15 +71,17 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
                   Text(
                     projectDetails!["title"],
                     style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        color: Color.fromARGB(255, 239, 248, 222)),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     "${projectDetails!["location"]} (${projectDetails!["date"]})",
-                    style: const TextStyle(fontSize: 16, color: Colors.white70),
+                    style: const TextStyle(
+                        fontSize: 17,
+                        color: Color.fromARGB(200, 239, 248, 222)),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 8),

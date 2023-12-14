@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vanrakshak/resources/api/apiResponse.dart';
 import 'package:vanrakshak/widgets/project/bulletPoint.dart';
+import 'package:vanrakshak/widgets/project/instructionsCard.dart';
 import 'package:vanrakshak/widgets/project/mappingScreen/mapImageCard.dart';
 
 class EnumScreenData extends ChangeNotifier {
@@ -24,10 +25,8 @@ class EnumScreenData extends ChangeNotifier {
                 child: Column(
               children: [
                 SizedBox(height: 40),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                InstructionsCard(
+                  cardItems: [
                     Text("Details of Enumeration: ",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
@@ -46,6 +45,7 @@ class EnumScreenData extends ChangeNotifier {
                     ),
                   ],
                 ),
+                SizedBox(height: 20),
                 Divider(
                   color: Colors.black,
                   thickness: 1,
@@ -133,6 +133,7 @@ class EnumScreenData extends ChangeNotifier {
                       ),
                     ),
                   ),
+                  SizedBox(height: 20),
                   Divider(
                     color: Colors.black,
                     thickness: 1,
@@ -142,40 +143,29 @@ class EnumScreenData extends ChangeNotifier {
                   SizedBox(
                     height: 20,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "STEPS FOR ENUMERATION",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  InstructionsCard(cardItems: [
+                    Text(
+                      "STEPS FOR ENUMERATION",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Container(
-                        padding: EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            BulletPoint(
-                                Title: "Perform Mapping if not done",
-                                Detail: ""),
-                            BulletPoint(
-                              Title: "Click on the Enumerate button",
-                              Detail: "",
-                            ),
-                            BulletPoint(
-                              Title: "Details of the Tree will be shown",
-                              Detail: "",
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      )
-                    ],
-                  )
+                    ),
+                    SizedBox(height: 10),
+                    BulletPoint(
+                        Title: "Perform Mapping if not done", Detail: ""),
+                    BulletPoint(
+                      Title: "Click on the Enumerate button",
+                      Detail: "",
+                    ),
+                    BulletPoint(
+                      Title: "Details of the Tree will be shown",
+                      Detail: "",
+                    ),
+                    SizedBox(
+                      height: 50,
+                    )
+                  ])
                 ],
               ),
             ),
