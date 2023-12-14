@@ -17,9 +17,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   final String predefinedState = "Telangana";
   final String areaOfMarkedRegion = "12345";
   final List<String> polygonCoordinates = ["12345", "12345", "12345", "12345"];
-  final Color Bgcolor = Color.fromARGB(255, 39, 159, 130);
-  final Color Frontcolor = Color.fromARGB(255, 239, 248, 222);
-  final Color buttoncolor = Color.fromARGB(255, 69, 170, 173);
+  final Color Bgcolor = const Color.fromARGB(255, 39, 159, 130);
+  final Color Frontcolor = const Color.fromARGB(255, 239, 248, 222);
+  final Color buttoncolor = const Color.fromARGB(255, 69, 170, 173);
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       backgroundColor: Frontcolor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               DashBoardDetailCard(
                   location: "Hyderabad",
                   state: "Telangana",
@@ -46,10 +46,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               //   areaOfMarkedRegion: areaOfMarkedRegion,
               //   polygonCoordinates: polygonCoordinates,
               // ), //In widget Section
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.more_horiz,
                     color: Colors.black,
                     size: 30.0,
@@ -61,20 +61,20 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           fontWeight: FontWeight.bold)),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   DashboardCard(
                       title: "Trial",
-                      image: Image.asset('assets/project/projectTile50.png'),
+                      image: Image.asset('assets/project/dashboard1.png'),
                       description: 'Description Here',
                       additionalText: 'Additional Text Here',
-                      MainTitle: "TREE ANALYSIS",
+                      MainTitle: "TERRAIN ANALYSIS",
                       onTap: () {}),
                   DashboardCard(
                       title: "Trial",
                       image: Image.asset(
-                        'assets/project/projectTile50.png',
+                        'assets/project/dashboard2.png',
                       ),
                       description: 'Description Here',
                       additionalText: 'Additional Text Here',
@@ -82,13 +82,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       onTap: () {}),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   DashboardCard(
                       title: "Trial",
                       image: Image.asset(
-                        'assets/project/projectTile50.png',
+                        'assets/project/dashboard3.png',
                         fit: BoxFit.fill,
                       ),
                       description: 'Description Here',
@@ -98,7 +98,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   DashboardCard(
                       title: "Trial",
                       image: Image.asset(
-                        'assets/project/projectTile50.png',
+                        'assets/project/dashboard4.png',
                       ),
                       description: 'Description Here',
                       additionalText: 'Additional Text Here',
@@ -106,7 +106,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       onTap: () {}),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),
