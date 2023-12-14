@@ -84,47 +84,30 @@ def satelliteImageScript():
 
     driver.quit()
 
-    # img = Image.open(screenshot_path)
-
-    # desired_size = (1000, 1000)
-    # img = img.resize(desired_size, Image.ANTIALIAS)
-    # img.save(screenshot_path)
 
     imgUnmasked = cv2.imread("assets/" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png")
 
-    # image = cv2.imread('Flask/t3.png')
-    # image1 = cv2.imread('Flask/t2.png')
-
-    # Define the color to be cropped
-    color_to_crop = (0, 0, 255)  # Red
-
-    # Convert the image to HSV color space
+    
     image_hsv = cv2.cvtColor(imgUnmasked, cv2.COLOR_BGR2HSV)
 
-    # Define the lower and upper bounds of the color range
     lower_color = np.array([0, 0, 100])
     upper_color = np.array([10, 255, 255])
 
-    # Create a mask for the color range
     mask = cv2.inRange(image_hsv, lower_color, upper_color)
 
-    # Find the contours of the color range
     contours = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
 
-    # Find the largest contour
     largest_contour = max(contours, key=cv2.contourArea)
 
-    # Get the coordinates of the bounding rectangle of the largest contour
     x, y, w, h = cv2.boundingRect(largest_contour)
 
-    # Crop the image using the bounding rectangle coordinates
-    imgUnmasked = imgUnmasked[y:y+h, x:x+w]
+    # imgUnmasked = imgUnmasked[y:y+h, x:x+w]
 
-    cv2.imwrite("assets/" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked1.png", imgUnmasked)
+    # cv2.imwrite("assets/" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked1.png", imgUnmasked)
     
 
 
-    fileName = os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked1.png"
+    fileName = os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png"
     bucket = storage.bucket()
     blob = bucket.blob(f"SatelliteImages/PolygonUnmasked/{imageID}_____ConstructionPolygonSatelliteImageUnmasked.png")
     blob.upload_from_filename(fileName)
@@ -133,11 +116,6 @@ def satelliteImageScript():
 
     output['satelliteImageUnmasked'] =  blob.public_url
 
-    # img2 = Image.open(screenshot_path2)
-
-    # desired_size = (1000, 1000)
-    # img2 = img2.resize(desired_size, Image.ANTIALIAS)
-    # img2.save(screenshot_path2)
 
     imgNoPoly = cv2.imread("assets/"+ imageID + "_____ConstructionSatelliteImageNoPolygon.png")
 
@@ -147,7 +125,7 @@ def satelliteImageScript():
 
     fileName = os.getcwd() + "\\assets\\" + imageID + "_____ConstructionSatelliteImageNoPolygon1.png"
     bucket = storage.bucket()
-    blob = bucket.blob(f"SatelliteImages/PolygonUnmasked/{imageID}_____ConstructionSatelliteImageNoPolygon.png")
+    blob = bucket.blob(f"SatelliteImages/InsidePolygon/{imageID}_____ConstructionSatelliteImageNoPolygon.png")
     blob.upload_from_filename(fileName)
 
     blob.make_public()
@@ -156,7 +134,6 @@ def satelliteImageScript():
 
     print("your file url", blob.public_url)
 
-    # print(f"Screenshot saved with size {desired_size}")
     output['result'] = "The map has successfully been created"
     output['satelliteImageNoPolygon'] =  blob.public_url
     output['elevationList'] = elevationList
@@ -182,8 +159,8 @@ def satelliteImageScript():
     result_image = cv2.cvtColor(result_image, cv2.COLOR_BGR2BGRA)
 
     black_mask = np.all(result_image[:, :, :3] == [0, 0, 0], axis=-1)
-    # result_image[black_mask, 3] = 0
-    result_image[black_mask, :3] = [255, 255, 255]
+    result_image[black_mask, 3] = 0
+    # result_image[black_mask, :3] = [255, 255, 255]
 
     cv2.imwrite(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageMasked.png", result_image)
 
@@ -200,11 +177,12 @@ def satelliteImageScript():
 
     ##########################################################################################################################################################################
 
-    # os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageMasked.png")
-    # os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png")
-    # os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionSatelliteImageNoPolygon.png")
-    # os.remove(os.getcwd() + "\\assets\\satelliteMap.html")
-    # os.remove(os.getcwd() + "\\assets\\satelliteMapNoPolygon.html")
+    os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageMasked.png")
+    os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png")
+    os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionSatelliteImageNoPolygon.png")
+    os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionSatelliteImageNoPolygon1.png")
+    os.remove(os.getcwd() + "\\assets\\satelliteMap.html")
+    os.remove(os.getcwd() + "\\assets\\satelliteMapNoPolygon.html")
     return jsonify(output)
 
 #########################################################################################################################################################################################
@@ -223,7 +201,7 @@ def treeEnumerationScript():
     if img1.shape[2] == 4:
         img1 = cv2.cvtColor(img1, cv2.COLOR_RGBA2RGB)
 
-    path_to_model = "D:/SIHMODELS/HireGod.pth"
+    path_to_model = "D:/SIHMODELS/FinalModel.pth"
     loaded_model = main.deepforest()
     loaded_model.model.load_state_dict(torch.load(path_to_model))
     loaded_model.eval()
