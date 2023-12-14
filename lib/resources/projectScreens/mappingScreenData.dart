@@ -96,7 +96,7 @@ class MapScreenData extends ChangeNotifier {
               ),
 
               SizedBox(height: 20),
-              //HERE
+              //HERE Google Maps Card
               GoogleMapsCard(
                 googleMap: googleMapWidget,
                 cardWidth: MediaQuery.of(context).size.width *
@@ -111,26 +111,53 @@ class MapScreenData extends ChangeNotifier {
         ),
       );
     } else {
+      //Map widget for not mapped
+      GoogleMap googleMapWidget = GoogleMap(
+          initialCameraPosition: CameraPosition(
+              zoom: 10,
+              target: LatLng(
+                  //Mumbai Coordinates
+                  19.0760,
+                  72.8777)));
+
+      //main Code for not mapped
       return SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
               SizedBox(
-                height: 200,
+                height: 40,
               ),
-              Text(
-                "Not Mapped Yet",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => MapScreen(
+                        projectID: projectID,
+                      ),
+                    ),
+                  );
+                },
+                child: GoogleMapsCard(
+                  googleMap: googleMapWidget,
+                  cardWidth: MediaQuery.of(context).size.width *
+                      0.9, // Set the card width based on screen width
+                  mapHeight: 300, // Set the height of the GoogleMap widget
                 ),
               ),
               SizedBox(
-                width: 100,
+                height: 20,
+              ),
+              SizedBox(
+                width: 250,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 69, 170, 173)),
+                    backgroundColor: Color.fromARGB(255, 69, 170, 173),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          10.0), // Adjust the radius as needed
+                    ),
+                  ),
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -140,9 +167,52 @@ class MapScreenData extends ChangeNotifier {
                       ),
                     );
                   },
-                  child: Text("Map"),
+                  child:
+                      Text("OPEN MAPS", style: TextStyle(color: Colors.white)),
                 ),
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Divider(
+                color: Colors.black,
+                thickness: 1,
+                indent: 20,
+                endIndent: 20,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Steps for Mapping ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BulletPoint(
+                            Title: "Mark The Points on Map", Detail: ""),
+                        BulletPoint(
+                          Title: "Click the settings icon(bottom left)",
+                          Detail: "",
+                        ),
+                        BulletPoint(
+                          Title: "Click on download button",
+                          Detail: "",
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),

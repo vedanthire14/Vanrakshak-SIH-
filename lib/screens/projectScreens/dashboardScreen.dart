@@ -31,12 +31,21 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildCustomLayout(),
               SizedBox(height: 20),
-              AreaCoordinateCard(
-                areaOfMarkedRegion: areaOfMarkedRegion,
-                polygonCoordinates: polygonCoordinates,
-              ), //In widget Section
+              DashBoardDetailCard(
+                  location: "Hyderabad",
+                  state: "Telangana",
+                  coordinate1: "12345",
+                  coordinate2: "12345",
+                  coordinate3: "12345",
+                  coordinate4: "12345",
+                  acres: "22",
+                  metersSquared: "22"),
+
+              // AreaCoordinateCard(
+              //   areaOfMarkedRegion: areaOfMarkedRegion,
+              //   polygonCoordinates: polygonCoordinates,
+              // ), //In widget Section
               SizedBox(height: 20),
               Row(
                 children: [
@@ -98,89 +107,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ],
               ),
               SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildProjectDetailColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildDetailText(
-          "Project: $predefinedProjectName",
-          Icons.folder_open,
-        ),
-        SizedBox(height: 10),
-        _buildDetailText("Date: 1/1/2023", Icons.calendar_today),
-      ],
-    );
-  }
-
-  Widget _buildLocationDetailColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildDetailText(
-          "Location: $predefinedLocation",
-          Icons.location_on,
-        ),
-        SizedBox(height: 10),
-        _buildDetailText("State: $predefinedState", Icons.flag),
-      ],
-    );
-  }
-
-  Widget _buildDetailText(String text, IconData icon) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        children: [
-          Icon(icon, color: Bgcolor),
-          SizedBox(width: 10),
-          Expanded(
-            child: Text(text,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.openSans(fontSize: 15)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDivider() {
-    return Divider(
-      thickness: 1,
-      color: Colors.grey[400],
-      indent: 10,
-      endIndent: 10,
-    );
-  }
-
-  Widget buildCustomLayout() {
-    return Padding(
-      padding: EdgeInsets.all(15),
-      child: Material(
-        color: Frontcolor,
-        elevation: 5,
-        borderRadius: BorderRadius.circular(10),
-        child: Padding(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Project: $predefinedProjectName",
-                style: GoogleFonts.openSans(
-                    fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              _buildDivider(),
-              _buildProjectDetailColumn(),
-              _buildDivider(),
-              _buildLocationDetailColumn(),
             ],
           ),
         ),

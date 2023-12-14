@@ -1,101 +1,110 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-//AREA AND COORDINATES CARD
-class AreaCoordinateCard extends StatelessWidget {
-  final String areaOfMarkedRegion;
-  final List<String> polygonCoordinates;
+import 'package:vanrakshak/widgets/project/bulletPoint.dart';
 
-  AreaCoordinateCard(
-      {Key? key,
-      required this.areaOfMarkedRegion,
-      required this.polygonCoordinates})
-      : super(key: key);
+class DashBoardDetailCard extends StatelessWidget {
+  final String location;
+  final String state;
+  final String coordinate1;
+  final String coordinate2;
+  final String coordinate3;
+  final String coordinate4;
+  final String acres;
+  final String metersSquared;
 
-  final Color Bgcolor = Color.fromARGB(255, 39, 159, 130);
-  final Color Frontcolor = Color.fromARGB(255, 239, 248, 222);
-  final Color buttoncolor = Color.fromARGB(255, 69, 170, 173);
+  DashBoardDetailCard({
+    Key? key,
+    required this.location,
+    required this.state,
+    required this.coordinate1,
+    required this.coordinate2,
+    required this.coordinate3,
+    required this.coordinate4,
+    required this.acres,
+    required this.metersSquared,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Frontcolor,
-      elevation: 4,
-      child: Padding(
-        padding: EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            _buildCoordinatesCard(),
-            SizedBox(height: 10),
-            _buildAreaCard(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCoordinatesCard() {
-    return Card(
-      color: Frontcolor,
-      elevation: 2, // Reduced elevation for nested card
-      child: Padding(
-        padding: EdgeInsets.all(8.0), // Adjust padding as needed
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildDetailText("Co-Ordinates", Icons.map),
-            SizedBox(height: 6),
-            ...polygonCoordinates
-                .map((coordinate) => Text(
-                      coordinate,
-                      style: GoogleFonts.openSans(fontSize: 16),
-                    ))
-                .toList(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAreaCard() {
-    return Card(
-      color: Frontcolor,
-      elevation: 2, // Reduced elevation for nested card
-      child: Row(
+      color: Colors.white,
+      elevation: 7.0,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Image.asset('assets/project/projectTile50.png',
-                fit: BoxFit.cover), // Your image
+          //Project Details
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("PROJECT DETAILS",
+                    style: TextStyle(
+                        color: Colors.teal,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(height: 10),
+                BulletPoint(Title: "Location: ", Detail: location),
+                BulletPoint(Title: "State: ", Detail: state),
+              ],
+            ),
           ),
-          VerticalDivider(
-            thickness: 1,
-            color: Colors.grey[400],
+          Divider(indent: 20, endIndent: 20),
+
+          //  Coordinates
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("COORDINATES",
+                    style: TextStyle(
+                        color: Colors.teal,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold)),
+                Container(
+                  width: 280,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BulletPoint(Title: "", Detail: coordinate1),
+                      BulletPoint(Title: "", Detail: coordinate2),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 280,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BulletPoint(Title: "", Detail: coordinate3),
+                      BulletPoint(Title: "", Detail: coordinate4),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(8.0), // Add padding for text
-              child: Text(
-                "Area: $areaOfMarkedRegion",
-                style: GoogleFonts.openSans(fontSize: 18),
-              ),
+          Divider(indent: 20, endIndent: 20),
+
+          // Area Details
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("AREA DETAILS",
+                    style: TextStyle(
+                        color: Colors.teal,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold)),
+                BulletPoint(Title: "Acres: ", Detail: acres),
+                BulletPoint(Title: "Meters Squared: ", Detail: metersSquared),
+              ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildDetailText(String text, IconData icon) {
-    return Row(
-      children: [
-        Icon(icon, size: 20),
-        SizedBox(width: 8),
-        Text(
-          text,
-          style:
-              GoogleFonts.openSans(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-      ],
     );
   }
 }
