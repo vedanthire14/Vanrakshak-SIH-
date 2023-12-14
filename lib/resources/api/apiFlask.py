@@ -1,5 +1,4 @@
 import requests
-from PIL import Image
 from flask import Flask, jsonify, request
 import os
 import cv2
@@ -9,7 +8,7 @@ import time
 import numpy as np
 import firebase_admin as admin;
 from firebase_admin import storage
-
+from geopy.geocoders import Nominatim
 import sys
 import torch
 from deepforest import main
@@ -47,6 +46,15 @@ def satelliteImageScript():
 
     center_lat = sum(lat for lat, _ in polygon_coords) / len(polygon_coords)
     center_lng = sum(lng for _, lng in polygon_coords) / len(polygon_coords)
+
+    geolocator = Nominatim(user_agent="my_geocoder")
+    location = geolocator.reverse((center_lat, center_lng), language='en')
+    address = location.address if location else None
+
+    if(address == None):
+        output['locationFromLatLong'] = 'Not Found'
+    else:
+        output['locationFromLatLong'] = address
 
     tile_layer = "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
 
@@ -183,6 +191,7 @@ def satelliteImageScript():
     os.remove(os.getcwd() + "\\assets\\" + imageID + "_____ConstructionSatelliteImageNoPolygon1.png")
     os.remove(os.getcwd() + "\\assets\\satelliteMap.html")
     os.remove(os.getcwd() + "\\assets\\satelliteMapNoPolygon.html")
+
     return jsonify(output)
 
 #########################################################################################################################################################################################
