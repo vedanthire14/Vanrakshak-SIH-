@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+
+import 'package:vanrakshak/widgets/report/pieChartWidget.dart';
+import 'package:vanrakshak/widgets/report/multiLineGraphWid.dart';
 
 class SoilAnalysisScreen extends StatelessWidget {
   @override
@@ -12,7 +14,7 @@ class SoilAnalysisScreen extends StatelessWidget {
       body: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(8.0),
             child: Row(
               children: const [
                 Icon(Icons.legend_toggle, color: Colors.blue),
@@ -26,100 +28,32 @@ class SoilAnalysisScreen extends StatelessWidget {
               ],
             ),
           ),
-          // Label for Y-axis (Mean)
+
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Label for Y-axis (Mean) rotated
               RotatedBox(
-                quarterTurns: 3,
+                quarterTurns: 3, // this will rotate the text
                 child: Text('Mean', style: TextStyle(fontSize: 16)),
               ),
-              Expanded(child: _buildSoilAnalysisGraph()),
+              Expanded(child: buildSoilAnalysisGraph()),
             ],
           ),
           // Label for X-axis (Depth)
           Center(child: Text('Depth', style: TextStyle(fontSize: 16))),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildSoilAnalysisGraph() {
-    final lineBarsData = [
-      LineChartBarData(
-        spots: const [
-          FlSpot(0, 5),
-          FlSpot(5, 10),
-          FlSpot(15, 5),
-          FlSpot(10, 15),
-          FlSpot(20, 10),
-          FlSpot(20, 5),
-        ],
-        color: Colors.blue,
-      ),
-      LineChartBarData(
-        spots: const [
-          FlSpot(10, 15),
-          FlSpot(3, 10),
-          FlSpot(7, 5),
-          FlSpot(09, 5),
-          FlSpot(5, 10),
-          FlSpot(15, 5),
-        ],
-        color: Color.fromARGB(255, 243, 159, 33),
-      ),
-    ];
+          SizedBox(height: 30),
+          Text("Kya Chinmay Kaam Karega??", style: TextStyle(fontSize: 30)),
 
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Container(
-        height: 300,
-        child: LineChart(
-          LineChartData(
-            gridData: FlGridData(show: true),
-            titlesData: FlTitlesData(
-              rightTitles: AxisTitles(
-                sideTitles:
-                    SideTitles(showTitles: false), // Remove right titles
-              ),
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(showTitles: false), // Remove top titles
-              ),
-              leftTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 40,
-                  getTitlesWidget: (value, meta) {
-                    return Text('${value.toInt()}');
-                  },
-                ),
-              ),
-              bottomTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 22,
-                  getTitlesWidget: (value, meta) {
-                    // Adjust the interval of X-axis labels
-                    if (value == 0 || value % 5 == 0) {
-                      return Text('${value.toInt()}');
-                    }
-                    return Container();
-                  },
-                ),
-              ),
-            ),
-            borderData: FlBorderData(
-              show: true,
-              border: Border.all(color: Colors.black),
-            ),
-            minX: 0,
-            maxX: 20, // Adjust the maximum X value
-            minY: 0,
-            maxY: 20, // Adjust the maximum Y value as needed
-            lineBarsData: lineBarsData,
-          ),
-        ),
+          PieChartWidget(
+              sand: 20,
+              normal: 50,
+              bad:
+                  30) // This will create a pie chart  for sand, normal, and bad.
+        ],
       ),
     );
   }
 }
+//Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahahahahahhaha
