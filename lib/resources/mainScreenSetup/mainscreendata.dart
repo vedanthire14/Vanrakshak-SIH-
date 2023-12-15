@@ -134,45 +134,44 @@ class MainScreenSetup with ChangeNotifier {
           allProjectsIds = snapshot.data!["projectsID"];
           allProjects = [];
           List<Future<void>> projectFutures = [];
+          List<String> check = [];
 
           for (int i = 0; i < allProjectsIds.length; i++) {
-            // print(i);
             projectFutures.add(
               db.collection("projects").doc(allProjectsIds[i]).get().then(
                 (value) {
-                  allProjects.add(
-                    GestureDetector(
-                      onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) =>
-                        //         MapScreen(projectID: allProjectsIds[i]),
-                        //   ),
-                        // );
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
+                  if (!check.contains(allProjectsIds[i])) {
+                    check.add(allProjectsIds[i]);
+                    allProjects.add(
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
                               builder: (context) => ProjectMainScreen(
-                                  projectID: allProjectsIds[i])),
-                        );
-                      },
-                      child: ProjectCard(
-                        title: value.data()!["title"],
-                        location: value.data()!["location"],
-                        date: value.data()!["date"],
-                        progress:
-                            double.parse(value.data()!["progress"].toString()),
-                        isMapped: value.data()!["isMapped"],
-                        isEnumerated: value.data()!["isEnumerated"],
-                        isSpecies: value.data()!["isSpecies"],
-                        isReported: value.data()!["isReported"],
+                                  projectID: allProjectsIds[i]),
+                            ),
+                          );
+                        },
+                        child: ProjectCard(
+                          title: value.data()!["title"],
+                          location: value.data()!["location"],
+                          date: value.data()!["date"],
+                          progress: double.parse(
+                              value.data()!["progress"].toString()),
+                          isMapped: value.data()!["isMapped"],
+                          isEnumerated: value.data()!["isEnumerated"],
+                          isSpecies: value.data()!["isSpecies"],
+                          isReported: value.data()!["isReported"],
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 },
               ),
             );
+
+            // print(i);
           }
 
           return FutureBuilder<void>(
@@ -180,6 +179,9 @@ class MainScreenSetup with ChangeNotifier {
             builder:
                 (BuildContext context, AsyncSnapshot<void> projectSnapshot) {
               if (projectSnapshot.connectionState == ConnectionState.done) {
+                if (allProjects.length == 2 * allProjectsIds.length) {
+                  allProjects = allProjects.sublist(0, allProjects.length ~/ 2);
+                }
                 return Scaffold(
                   appBar: AppBar(
                     backgroundColor: const Color.fromARGB(255, 69, 170, 173),
