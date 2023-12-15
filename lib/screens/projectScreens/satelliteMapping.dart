@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as googlemap;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as toolkit;
 import 'package:vanrakshak/resources/api/apiResponse.dart';
 import 'package:vanrakshak/screens/projectScreens/projectMainScreen.dart';
@@ -28,6 +29,35 @@ class MapScreenState extends State<MapScreen> {
   List<googlemap.LatLng> points = [];
   List<toolkit.LatLng> coordinates = [];
   bool loading = false;
+
+  // bool _serviceEnabled = false;
+  // Location location = Location();
+  // PermissionStatus _permissionGranted = PermissionStatus.denied;
+  // //LocationData _locationData = LocationData.fromMap({'latitude': 37.4219999, 'longitude': -122.0840575});
+  // LocationData? _locationData;
+  // StreamSubscription<LocationData>? locationSubscription;
+  // bool _isListenLocation = false;
+  // bool _isGetLocation = false;
+
+  // Future<dynamic> getLocation() async {
+  //   _serviceEnabled = await location.serviceEnabled();
+  //   if (!_serviceEnabled) {
+  //     _serviceEnabled = await location.requestService();
+  //     if (!_serviceEnabled) {
+  //       return null;
+  //     }
+  //   }
+
+  //   _permissionGranted = await location.hasPermission();
+  //   if (_permissionGranted == PermissionStatus.denied) {
+  //     _permissionGranted = await location.requestPermission();
+  //     if (_permissionGranted != PermissionStatus.granted) {
+  //       return null;
+  //     }
+  //   }
+
+  //   _locationData = await location.getLocation();
+  // }
 
   double currentZoom = 15;
   void onCameraMove(CameraPosition position) {
@@ -72,9 +102,25 @@ class MapScreenState extends State<MapScreen> {
 
   @override
   void initState() {
-    super.initState();
     _controller = Completer<googlemap.GoogleMapController>();
+    // getLocation();
+    // locationSubscription =
+    //     Location().onLocationChanged.listen((LocationData locationData) {
+    //   setState(() {
+    //     _locationData = locationData;
+    //     loading = false;
+    //   });
+    // });
+    super.initState();
   }
+
+  // @override
+  // void dispose() {
+  //   if (locationSubscription != null) {
+  //     locationSubscription?.cancel();
+  //   }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

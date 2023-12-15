@@ -53,6 +53,7 @@ dependencies:
   pdf: ^3.10.7
   permission_handler: ^11.1.0
   printing: ^5.11.1
+  location: ^5.0.3
 
 dev_dependencies:
   flutter_test:
