@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vanrakshak/resources/projectScreens/enumerationScreenData.dart';
 import 'package:vanrakshak/resources/projectScreens/mappingScreenData.dart';
+import 'package:vanrakshak/resources/projectScreens/speciesScreenData.dart';
 import 'package:vanrakshak/screens/projectScreens/dashboardScreen.dart';
 
 class ProjectMainScreen extends StatefulWidget {
@@ -39,6 +40,8 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
   Widget build(BuildContext context) {
     MapScreenData mapScreenData = Provider.of<MapScreenData>(context);
     EnumScreenData enumScreenData = Provider.of<EnumScreenData>(context);
+    SpeciesScreenData speciesScreenData =
+        Provider.of<SpeciesScreenData>(context);
 
     return DefaultTabController(
       length: 4,
@@ -48,7 +51,7 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
             ? const Center(
                 child: CircularProgressIndicator(
                     color: Color.fromARGB(255, 69, 170, 173)))
-            : _buildTabView(mapScreenData, enumScreenData),
+            : _buildTabView(mapScreenData, enumScreenData, speciesScreenData),
       ),
     );
   }
@@ -162,8 +165,8 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
     );
   }
 
-  Widget _buildTabView(
-      MapScreenData mapScreenData, EnumScreenData enumScreenData) {
+  Widget _buildTabView(MapScreenData mapScreenData,
+      EnumScreenData enumScreenData, SpeciesScreenData speciesScreenData) {
     return TabBarView(
       physics: const NeverScrollableScrollPhysics(),
       children: [
@@ -174,9 +177,13 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
             ? Container()
             : enumScreenData.enumScreen(
                 projectDetails, context, widget.projectID),
-        isMapDataFulfilled
-            ? const Center(child: Text('Species Content'))
-            : _disabledTabContent(),
+        (loading)
+            ? Container()
+            : speciesScreenData.speciesScreen(
+                projectDetails,
+                context,
+                widget.projectID,
+              ),
         isMapDataFulfilled ? const DashBoardScreen() : _disabledTabContent(),
       ],
     );

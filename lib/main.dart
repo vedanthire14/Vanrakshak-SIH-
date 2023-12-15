@@ -8,6 +8,7 @@ import 'package:vanrakshak/resources/authentication/signupAuthentication.dart';
 import 'package:vanrakshak/resources/mainScreenSetup/mainscreendata.dart';
 import 'package:vanrakshak/resources/projectScreens/enumerationScreenData.dart';
 import 'package:vanrakshak/resources/projectScreens/mappingScreenData.dart';
+import 'package:vanrakshak/resources/projectScreens/speciesScreenData.dart';
 import 'package:vanrakshak/screens/introSlider/introSlider.dart';
 import 'package:vanrakshak/screens/mainScreens/mainScreen.dart';
 import 'package:vanrakshak/screens/projectScreens/pdfScreen.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => EnumScreenData(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SpeciesScreenData(),
         ),
       ],
       child: MaterialApp(

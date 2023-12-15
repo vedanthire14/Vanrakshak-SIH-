@@ -11,7 +11,7 @@ class MainScreenSetup with ChangeNotifier {
   List<Widget> allProjects = [];
   List<dynamic> allProjectsIds = [];
   final db = FirebaseFirestore.instance;
-  final userData = FirebaseAuth.instance.currentUser;
+  User? userData = FirebaseAuth.instance.currentUser;
   var uuid = const Uuid();
   bool loading = false;
 
@@ -35,7 +35,7 @@ class MainScreenSetup with ChangeNotifier {
 
     db
         .collection("users")
-        .doc(userData!.uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({"projectsID": allProjectsIds});
 
     db.collection("projects").doc(newProjectId).set({
