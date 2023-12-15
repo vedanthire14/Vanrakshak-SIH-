@@ -50,17 +50,14 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: FeatureDiscovery(
-          recordStepsInSharedPreferences: false,
-          child: StreamBuilder(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, userSnp) {
-              if (userSnp.hasData) {
-                return const MainScreen();
-              }
-              return MyLiquidSwipe();
-            },
-          ),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, userSnp) {
+            if (userSnp.hasData) {
+              return const MainScreen();
+            }
+            return MyLiquidSwipe();
+          },
         ),
       ),
     );

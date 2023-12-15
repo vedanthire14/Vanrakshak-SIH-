@@ -16,16 +16,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      FeatureDiscovery.discoverFeatures(context, <String>[
-        'feature1',
-        'feature2',
-      ]);
-    });
-  }
 
   TextEditingController projectName = TextEditingController();
   TextEditingController projectLocation = TextEditingController();
