@@ -27,6 +27,15 @@ default_app = admin.initialize_app(
 
 app = Flask(__name__)
 
+#########################################################################################################################################################################################
+def get_neighboring_coords(base_coords, increments):
+    neighboring_coords = []
+    for lat_increment, lng_increment in increments:
+        neighboring_coords.append([(lat + lat_increment, lng + lng_increment) for lat, lng in base_coords])
+    return neighboring_coords
+
+#########################################################################################################################################################################################
+
 @app.route('/satelliteimage',methods=['GET'])
 def satelliteImageScript():
     latlngzoom = str(request.args['LatLong']).split(",")
@@ -90,7 +99,7 @@ def satelliteImageScript():
     screenshot_path2 = os.getcwd() + "\\assets\\" + imageID + "_____ConstructionSatelliteImageNoPolygon.png"
     driver.save_screenshot(screenshot_path2)
 
-    driver.quit()
+    # driver.quit()
 
 
     imgUnmasked = cv2.imread("assets/" + imageID + "_____ConstructionPolygonSatelliteImageUnmasked.png")
@@ -182,6 +191,45 @@ def satelliteImageScript():
     print("your file url", blob.public_url)
 
     output['satelliteImageMasked'] =  blob.public_url
+
+    ##########################################################################################################################################################################
+
+    assets_dir = "./assets"
+    os.makedirs(assets_dir, exist_ok=True)
+    mapbox_access_token = 'sk.eyJ1Ijoic2hydXRpMDMiLCJhIjoiY2xxNXNtZjFqMGtqNzJxa3p3dnMzc3dqcSJ9.F64C4BFDjHn9Pb4A76sfNA'
+    increments = [(0.01, 0.01), (-0.01, 0.01), (0.01, -0.01), (-0.01, -0.01), (0.02, 0), (0, 0.02)]
+    linkList = []
+
+    for idx, coords in enumerate(get_neighboring_coords(polygon_coords, increments), start=1):
+    
+        min_lat, min_lng = min(coords, key=lambda x: x[0])
+        max_lat, max_lng = max(coords, key=lambda x: x[0])
+        min_lng, max_lng = min(coords, key=lambda x: x[1])[1], max(coords, key=lambda x: x[1])[1]
+
+        
+        neighboring_map = folium.Map(location=[coords[0][0], coords[0][1]], zoom_start=zoom,
+                                    tiles=f'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{{z}}/{{x}}/{{y}}?access_token={mapbox_access_token}', attr='Mapbox Satellite')
+
+    
+        neighboring_map.fit_bounds([(min_lat, min_lng), (max_lat, max_lng)])
+
+        neighboring_map.save(os.getcwd() + "\\assets\\" + imageID + "_____NeighboringTile_" + str(idx) + ".html")
+        driver.get(os.getcwd() + "\\assets\\" + imageID + "_____NeighboringTile_" + str(idx) + ".html")
+        time.sleep(2)
+        driver.save_screenshot(os.getcwd() + "\\assets\\" + imageID + "_____NeighboringTile_" + str(idx) + ".png")
+
+        fileName = os.getcwd() + "\\assets\\" + imageID + "_____NeighboringTile_" + str(idx) + ".png"
+        bucket = storage.bucket()
+        blob = bucket.blob(f"SatelliteImages/NeighbouringTiles/{imageID}_____NeighboringTile_" + str(idx) +".png")
+        blob.upload_from_filename(fileName)
+
+        blob.make_public()
+        linkList.append(blob.public_url)
+        os.remove(os.getcwd() + "\\assets\\" + imageID + "_____NeighboringTile_" + str(idx) + ".png")
+        os.remove(os.getcwd() + "\\assets\\" + imageID + "_____NeighboringTile_" + str(idx) + ".html")
+
+    output["neighboringTiles"] = linkList
+    driver.quit()
 
     ##########################################################################################################################################################################
 

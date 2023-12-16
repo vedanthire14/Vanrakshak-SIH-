@@ -353,21 +353,13 @@ class MapScreenState extends State<MapScreen> {
             // print(uri);
             var jsonData = await apiResponse(uri);
             var decodedData = jsonDecode(jsonData);
-            String output = decodedData['result'];
-            String satelliteImageLink = decodedData['satelliteImageUnmasked'];
-            String satelliteImageNoPolygonLink =
-                decodedData['satelliteImageNoPolygon'];
-            String matelliteImageMaskedLink =
-                decodedData['satelliteImageMasked'];
-            List elevationList = decodedData['elevationList'];
-            String projectLocation = decodedData['locationFromLatLong'];
 
-            if (output == "The map has successfully been created") {
+            if (decodedData['result'] == "The map has successfully been created") {
               setState(() {
                 loading = false;
               });
             }
-            if (output == "The map has successfully been created") {
+            if (decodedData['result'] == "The map has successfully been created") {
               List<double> databaseCoords = [];
               for (int i = 0; i < coordinates.length; i++) {
                 databaseCoords.add(coordinates[i].latitude);
@@ -381,12 +373,13 @@ class MapScreenState extends State<MapScreen> {
                 ],
                 "areaAcres": areaAcres,
                 "areaMeters": areaInSquareMeters,
-                "satelliteImageWithPolygonUnmasked": satelliteImageLink,
-                "satelliteImageWithPolygonMasked": matelliteImageMaskedLink,
-                "satelliteImageWithNoPolygon": satelliteImageNoPolygonLink,
-                "elevationList": elevationList,
+                "satelliteImageWithPolygonUnmasked": decodedData['satelliteImageUnmasked'],
+                "satelliteImageWithPolygonMasked": decodedData['satelliteImageMasked'],
+                "satelliteImageWithNoPolygon": decodedData['satelliteImageNoPolygon'],
+                "elevationList": decodedData['elevationList'],
                 "zoomLevel": currentZoom,
-                "projectLocation": projectLocation
+                "projectLocation": decodedData['locationFromLatLong'],
+                "neighbouringTiles": decodedData['neighboringTiles'],
               };
               await FirebaseFirestore.instance
                   .collection("projects")
