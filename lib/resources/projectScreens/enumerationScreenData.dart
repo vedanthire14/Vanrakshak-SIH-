@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vanrakshak/resources/api/apiResponse.dart';
+import 'package:vanrakshak/widgets/project/NotCompleteCard.dart';
+import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
 import 'package:vanrakshak/widgets/project/bulletPoint.dart';
 import 'package:vanrakshak/widgets/project/instructionsCard.dart';
 import 'package:vanrakshak/widgets/project/mappingScreen/mapImageCard.dart';
@@ -162,9 +164,6 @@ class EnumScreenData extends ChangeNotifier {
                       Title: "Details of the Tree will be shown",
                       Detail: "",
                     ),
-                    SizedBox(
-                      height: 50,
-                    )
                   ])
                 ],
               ),
@@ -176,17 +175,52 @@ class EnumScreenData extends ChangeNotifier {
       return SingleChildScrollView(
         child: Center(
           child: Column(
-            children: const [
+            children: [
               SizedBox(
-                height: 200,
+                height: 20,
               ),
-              Text(
-                "Please Complete Mapping First",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.bold,
-                ),
+              NotCompleteCard(
+                title:
+                    "A SATELLITE IMAGE IS REQUIRED TO GET THE CONSTRUCTION POLYGON AND PERFORM TREE ENUMERATION IN THE GIVEN AREA",
+                image: Image.asset('assets/project/projectTile25.png'),
+                MainTitle: "COMPLETE MAPPING FIRST",
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Divider(
+                color: Colors.black,
+                thickness: 1,
+                indent: 20,
+                endIndent: 20,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              InstructionsCard(
+                cardItems: [
+                  Text(
+                    "STEPS FOR MAPPING",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 69, 170, 173),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  BulletPoint(
+                    Title: "Mark The Points on Map",
+                    Detail: "",
+                  ),
+                  BulletPoint(
+                    Title: "Click the settings icon(bottom left)",
+                    Detail: "",
+                  ),
+                  BulletPoint(
+                    Title: "Click on download button",
+                    Detail: "",
+                  )
+                ],
               ),
             ],
           ),

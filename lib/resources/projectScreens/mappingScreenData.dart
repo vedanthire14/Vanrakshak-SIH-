@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:vanrakshak/screens/projectScreens/satelliteMapping.dart';
+import 'package:vanrakshak/widgets/project/NotCompleteCard.dart';
+import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
 import 'package:vanrakshak/widgets/project/bulletPoint.dart';
 import 'package:vanrakshak/widgets/project/instructionsCard.dart';
 import 'package:vanrakshak/widgets/project/mappingScreen/mapImageCard.dart';
@@ -164,11 +166,11 @@ class MapScreenData extends ChangeNotifier {
                       ),
                     );
                   },
-                  child: GoogleMapsCard(
-                    googleMap: googleMapWidget,
-                    cardWidth: MediaQuery.of(context).size.width *
-                        0.9, // Set the card width based on screen width
-                    mapHeight: 300, // Set the height of the GoogleMap widget
+                  child: NotCompleteCard(
+                    title:
+                        "A SATELLITE IMAGE IS REQUIRED TO GET THE CONSTRUCTION POLYGON AND PERFORM TREE ENUMERATION IN THE GIVEN AREA",
+                    image: Image.asset('assets/project/dashboard1.png'),
+                    MainTitle: "GOOGLE MAPS INTEGRATED",
                   ),
                 ),
                 SizedBox(
