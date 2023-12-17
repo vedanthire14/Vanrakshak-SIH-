@@ -91,7 +91,7 @@ class SpeciesScreenData extends ChangeNotifier {
             SizedBox(height: 20),
             NotCompleteSpecies(
                 title: "YOO",
-                image: Image.asset('assets/project/projectTile25.png'),
+                image: Image.asset('assets/project/projectTile25.png'),    
                 button1Text: "OHHH",
                 button2Text: "button2Text",
                 onButton1Tap: () {},
