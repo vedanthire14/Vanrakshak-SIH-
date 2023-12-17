@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vanrakshak/ChatbotScreen/ChatBot.dart';
 import 'package:vanrakshak/resources/authentication/loginAuthentication.dart';
 import 'package:vanrakshak/resources/authentication/signupAuthentication.dart';
 import 'package:vanrakshak/resources/mainScreenSetup/mainscreendata.dart';
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, userSnp) {
             if (userSnp.hasData) {
-              return const MainScreen();
+              return ChatBotScreen();
             }
             return MyLiquidSwipe();
           },
