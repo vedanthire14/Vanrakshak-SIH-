@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, userSnp) {
             if (userSnp.hasData) {
-              return ChatBotScreen();
+              return MainScreen();
             }
             return MyLiquidSwipe();
           },
