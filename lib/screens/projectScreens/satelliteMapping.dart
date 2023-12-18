@@ -334,7 +334,8 @@ class MapScreenState extends State<MapScreen> {
             setState(() {
               loading = true;
             });
-            url = "http://10.0.2.2:5000/satelliteimage?LatLong="; //For Emulator
+            url = "http://13.233.232.42:5000/satelliteimage?LatLong=";
+            // url = "http://10.0.2.2:5000/satelliteimage?LatLong="; //For Emulator
             for (int i = 0; i < coordinates.length; i++) {
               if (i == coordinates.length - 1) {
                 url += "${coordinates[i].latitude},${coordinates[i].longitude}";
@@ -354,12 +355,14 @@ class MapScreenState extends State<MapScreen> {
             var jsonData = await apiResponse(uri);
             var decodedData = jsonDecode(jsonData);
 
-            if (decodedData['result'] == "The map has successfully been created") {
+            if (decodedData['result'] ==
+                "The map has successfully been created") {
               setState(() {
                 loading = false;
               });
             }
-            if (decodedData['result'] == "The map has successfully been created") {
+            if (decodedData['result'] ==
+                "The map has successfully been created") {
               List<double> databaseCoords = [];
               for (int i = 0; i < coordinates.length; i++) {
                 databaseCoords.add(coordinates[i].latitude);
@@ -373,9 +376,12 @@ class MapScreenState extends State<MapScreen> {
                 ],
                 "areaAcres": areaAcres,
                 "areaMeters": areaInSquareMeters,
-                "satelliteImageWithPolygonUnmasked": decodedData['satelliteImageUnmasked'],
-                "satelliteImageWithPolygonMasked": decodedData['satelliteImageMasked'],
-                "satelliteImageWithNoPolygon": decodedData['satelliteImageNoPolygon'],
+                "satelliteImageWithPolygonUnmasked":
+                    decodedData['satelliteImageUnmasked'],
+                "satelliteImageWithPolygonMasked":
+                    decodedData['satelliteImageMasked'],
+                "satelliteImageWithNoPolygon":
+                    decodedData['satelliteImageNoPolygon'],
                 "elevationList": decodedData['elevationList'],
                 "zoomLevel": currentZoom,
                 "projectLocation": decodedData['locationFromLatLong'],
