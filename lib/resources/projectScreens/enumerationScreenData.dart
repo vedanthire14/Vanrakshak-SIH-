@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vanrakshak/resources/api/apiClass.dart';
 import 'package:vanrakshak/resources/api/apiResponse.dart';
 import 'package:vanrakshak/widgets/project/NotCompleteCard.dart';
 import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
@@ -12,6 +13,7 @@ import 'package:vanrakshak/widgets/project/mappingScreen/mapImageCard.dart';
 class EnumScreenData extends ChangeNotifier {
   final db = FirebaseFirestore.instance;
   bool loading = false;
+  ApiAddress apiAddress = ApiAddress();
 
   SingleChildScrollView enumScreen(
     Map<String, dynamic>? snapshot,
@@ -100,7 +102,7 @@ class EnumScreenData extends ChangeNotifier {
                           notifyListeners();
 
                           String url =
-                              "http://13.233.232.42:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
+                              "http://${apiAddress.address}:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
                           // "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
 
                           Uri uri = Uri.parse(url);
