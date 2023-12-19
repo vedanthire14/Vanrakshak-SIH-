@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 import 'dart:convert';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:vanrakshak/resources/api/apiClass.dart';
 import 'package:vanrakshak/resources/api/apiResponse.dart';
@@ -14,6 +17,54 @@ class EnumScreenData extends ChangeNotifier {
   final db = FirebaseFirestore.instance;
   bool loading = false;
   ApiAddress apiAddress = ApiAddress();
+
+  void uploadDroneVideo(String projectID) async {
+    final operationImageRef = FirebaseStorage.instance
+        .ref()
+        .child("DroneVideos/${projectID}_____DroneVideo");
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    File file = File(result!.files.single.path!);
+
+    try {
+      loading = true;
+      notifyListeners();
+      operationImageRef
+          .putFile(file)
+          .snapshotEvents
+          .listen((taskSnapshot) async {
+        switch (taskSnapshot.state) {
+          case TaskState.running:
+            // notifyListeners();
+            break;
+          case TaskState.paused:
+            // ...
+            break;
+          case TaskState.success:
+            String link = await operationImageRef.getDownloadURL();
+            FirebaseFirestore.instance
+                .collection("projects")
+                .doc(projectID)
+                .update({
+              "isSpecies": true,
+              "droneVideoLink": link,
+            });
+            loading = false;
+            notifyListeners();
+            break;
+          case TaskState.canceled:
+            loading = false;
+            notifyListeners();
+            break;
+          case TaskState.error:
+            loading = false;
+            notifyListeners();
+            break;
+        }
+      });
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+  }
 
   SingleChildScrollView enumScreen(
     Map<String, dynamic>? snapshot,
@@ -41,11 +92,11 @@ class EnumScreenData extends ChangeNotifier {
                     ),
                     BulletPoint(
                       Title: "Forest Area: ",
-                      Detail: "${snapshot["map"]["forestArea"]}",
+                      Detail: "${snapshot["enum"]["forestArea"]}",
                     ),
                     BulletPoint(
-                      Title: "Total Area: ",
-                      Detail: "${snapshot["map"]["totalArea"]}",
+                      Title: "Non Forest Area: ",
+                      Detail: "${snapshot["enum"]["nonForestArea"]}",
                     ),
                   ],
                 ),
@@ -119,6 +170,8 @@ class EnumScreenData extends ChangeNotifier {
                             "enum": {
                               "enumeratedImage": imageLink,
                               "treeCount": treeCount,
+                              "forestArea": decodedData["forestArea"],
+                              "nonForestArea": decodedData['nonForestArea']
                             }
                           }).then((value) {
                             loading = false;
@@ -129,6 +182,8 @@ class EnumScreenData extends ChangeNotifier {
                           snapshot["enum"] = {
                             "enumeratedImage": imageLink,
                             "treeCount": treeCount,
+                            "forestArea": decodedData["forestArea"],
+                            "nonForestArea": decodedData['nonForestArea']
                           };
                           notifyListeners();
                         },
@@ -202,7 +257,39 @@ class EnumScreenData extends ChangeNotifier {
                       ),
                     ),
                     onPressed: () async {
-                      
+                      loading = true;
+                      notifyListeners();
+
+                      String url =
+                          "http://${apiAddress.address}:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
+                      // "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
+
+                      Uri uri = Uri.parse(url);
+                      var data = await apiResponse(uri);
+                      var decodedData = jsonDecode(data);
+                      int treeCount = decodedData['treeCount'];
+                      String imageLink = decodedData['enumeratedImageLink'];
+
+                      FirebaseFirestore.instance
+                          .collection("projects")
+                          .doc(projectID)
+                          .update({
+                        "isEnumerated": true,
+                        "enum": {
+                          "enumeratedImage": imageLink,
+                          "treeCount": treeCount,
+                        }
+                      }).then((value) {
+                        loading = false;
+                        notifyListeners();
+                      });
+
+                      snapshot["isEnumerated"] = true;
+                      snapshot["enum"] = {
+                        "enumeratedImage": imageLink,
+                        "treeCount": treeCount,
+                      };
+                      notifyListeners();
                     },
                     child: Text("UPLOAD IMAGE",
                         style: TextStyle(color: Colors.white, fontSize: 20)),
