@@ -249,7 +249,7 @@ def treeEnumerationScript():
     imageLink = str(request.args['imageLink'])
     imageID = str(request.args['ProjectID'])
 
-    path_1 = "D:\\SIHMODELS\\TreeEnumeration"
+    path_1 = "C:\\SIHMODELS\\TreeEnumeration"
     sys.path.append(path_1)
     req = urllib.request.urlopen(imageLink)
     arr = np.asarray(bytearray(req.read()), dtype=np.uint8)
@@ -258,7 +258,7 @@ def treeEnumerationScript():
     if img1.shape[2] == 4:
         img1 = cv2.cvtColor(img1, cv2.COLOR_RGBA2RGB)
 
-    path_to_model = "D:/SIHMODELS/FinalModel.pth"
+    path_to_model = "C:/SIHMODELS/FinalModel.pth"
     loaded_model = main.deepforest()
     loaded_model.model.load_state_dict(torch.load(path_to_model))
     loaded_model.eval()

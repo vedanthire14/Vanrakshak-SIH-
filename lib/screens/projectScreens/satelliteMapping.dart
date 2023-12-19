@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as googlemap;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as toolkit;
+import 'package:vanrakshak/resources/api/apiClass.dart';
 import 'package:vanrakshak/resources/api/apiResponse.dart';
 import 'package:vanrakshak/screens/projectScreens/projectMainScreen.dart';
 import 'package:vanrakshak/widgets/project/mappingScreen/locationInput.dart';
@@ -29,6 +30,7 @@ class MapScreenState extends State<MapScreen> {
   List<googlemap.LatLng> points = [];
   List<toolkit.LatLng> coordinates = [];
   bool loading = false;
+  ApiAddress apiAddress = ApiAddress();
 
   // bool _serviceEnabled = false;
   // Location location = Location();
@@ -334,16 +336,24 @@ class MapScreenState extends State<MapScreen> {
             setState(() {
               loading = true;
             });
-            url = "http://10.0.2.2:5000/satelliteimage?LatLong="; //For Emulator
+            String reallocUrl =
+                "http://${apiAddress.address}:5000/treeReallocation?LatLong=";
+            url = "http://${apiAddress.address}:5000/satelliteimage?LatLong=";
+            // url = "http://10.0.2.2:5000/satelliteimage?LatLong="; //For Emulator
             for (int i = 0; i < coordinates.length; i++) {
               if (i == coordinates.length - 1) {
                 url += "${coordinates[i].latitude},${coordinates[i].longitude}";
+                reallocUrl +=
+                    "${coordinates[i].latitude},${coordinates[i].longitude}";
               } else {
                 url +=
+                    "${coordinates[i].latitude},${coordinates[i].longitude},";
+                reallocUrl +=
                     "${coordinates[i].latitude},${coordinates[i].longitude},";
               }
             }
             url += "&ProjectID=${widget.projectID}";
+            reallocUrl += "&ProjectID=${widget.projectID}";
             var areaInSquareMeters =
                 toolkit.SphericalUtil.computeArea(coordinates);
             var areaAcres = areaInSquareMeters / 4046.85642;
@@ -354,12 +364,14 @@ class MapScreenState extends State<MapScreen> {
             var jsonData = await apiResponse(uri);
             var decodedData = jsonDecode(jsonData);
 
-            if (decodedData['result'] == "The map has successfully been created") {
-              setState(() {
-                loading = false;
-              });
-            }
-            if (decodedData['result'] == "The map has successfully been created") {
+            // if (decodedData['result'] ==
+            //     "The map has successfully been created") {
+            //   setState(() {
+            //     loading = false;
+            //   });
+            // }
+            if (decodedData['result'] ==
+                "The map has successfully been created") {
               List<double> databaseCoords = [];
               for (int i = 0; i < coordinates.length; i++) {
                 databaseCoords.add(coordinates[i].latitude);
@@ -373,9 +385,12 @@ class MapScreenState extends State<MapScreen> {
                 ],
                 "areaAcres": areaAcres,
                 "areaMeters": areaInSquareMeters,
-                "satelliteImageWithPolygonUnmasked": decodedData['satelliteImageUnmasked'],
-                "satelliteImageWithPolygonMasked": decodedData['satelliteImageMasked'],
-                "satelliteImageWithNoPolygon": decodedData['satelliteImageNoPolygon'],
+                "satelliteImageWithPolygonUnmasked":
+                    decodedData['satelliteImageUnmasked'],
+                "satelliteImageWithPolygonMasked":
+                    decodedData['satelliteImageMasked'],
+                "satelliteImageWithNoPolygon":
+                    decodedData['satelliteImageNoPolygon'],
                 "elevationList": decodedData['elevationList'],
                 "zoomLevel": currentZoom,
                 "projectLocation": decodedData['locationFromLatLong'],

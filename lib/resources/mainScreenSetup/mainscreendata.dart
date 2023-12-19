@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vanrakshak/ChatbotScreen/ChatBot.dart';
 import 'package:vanrakshak/screens/projectScreens/projectMainScreen.dart';
 import 'package:vanrakshak/widgets/appbar/appbar.dart';
 import 'package:vanrakshak/widgets/project/newProject.dart';
@@ -87,6 +88,9 @@ class MainScreenSetup with ChangeNotifier {
           AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Scaffold(
+            floatingActionButton: FloatingActionButton(
+                backgroundColor: const Color.fromARGB(255, 69, 170, 173),
+                onPressed: () {}),
             appBar: AppBar(
               backgroundColor: const Color.fromARGB(255, 69, 170, 173),
               title: const Text('Vanrakshak'),
@@ -182,45 +186,68 @@ class MainScreenSetup with ChangeNotifier {
                 if (allProjects.length == 2 * allProjectsIds.length) {
                   allProjects = allProjects.sublist(0, allProjects.length ~/ 2);
                 }
-                return Scaffold(
-                  appBar: AppBar(
-                    backgroundColor: const Color.fromARGB(255, 69, 170, 173),
-                    title: const Text('Vanrakshak'),
-                    centerTitle: true,
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: (snapshot.data!["profilePic"] == "")
-                              ? Image.asset('assets/main/logo.png')
-                              : Image.network(
-                                  snapshot.data!["profilePic"],
-                                  fit: BoxFit.fitHeight,
-                                ),
+                return Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    Scaffold(
+                      // floatingActionButton: CustomFAB(),
+                      appBar: AppBar(
+                        backgroundColor:
+                            const Color.fromARGB(255, 69, 170, 173),
+                        title: const Text('Vanrakshak'),
+                        centerTitle: true,
+                        actions: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              child: /* Your existing code for profile picture */
+                                  Image(
+                                      image:
+                                          AssetImage('assets/main/logo.png')),
+                            ),
+                          ),
+                        ],
+                      ),
+                      drawer: const MyAppDrawer(),
+                      backgroundColor: const Color.fromARGB(255, 239, 248, 222),
+                      body: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 35.0),
+                            GestureDetector(
+                              onTap: () {
+                                selectTimeSlotBottomSheet(
+                                    context, 0, originalContext);
+                              },
+                              child: const CreateProjectWid(),
+                            ),
+                            Column(
+                              children: allProjects,
+                            ),
+                          ],
                         ),
-                      )
-                    ],
-                  ),
-                  drawer: const MyAppDrawer(),
-                  backgroundColor: const Color.fromARGB(255, 239, 248, 222),
-                  body: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 35.0),
-                        GestureDetector(
-                          onTap: () {
-                            selectTimeSlotBottomSheet(
-                                context, 0, originalContext);
-                          },
-                          child: const CreateProjectWid(),
-                        ),
-                        Column(
-                          children: allProjects,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      bottom: 16,
+                      right: 16,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChatBotScreen(),
+                              ));
+                        },
+                        child: Image.asset(
+                          'assets/main/bhalu.gif', // Path to your robot GIF file
+                          width: 150, // Adjust the size as needed
+                          height: 150,
+                        ),
+                      ),
+                    ),
+                  ],
                 );
               } else {
                 return Scaffold(
@@ -251,6 +278,37 @@ class MainScreenSetup with ChangeNotifier {
           );
         }
       },
+    );
+  }
+}
+
+class CustomFAB extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {},
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Robot Icon or Image
+          Icon(Icons.android,
+              size: 40), // Replace with a custom robot icon or image
+          // Text Overlay
+          Positioned(
+            bottom: 5,
+            child: Text(
+              "Hi",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+      // Custom Shape
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(15.0))),
     );
   }
 }
