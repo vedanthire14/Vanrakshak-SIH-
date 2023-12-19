@@ -70,6 +70,7 @@ class SpeciesScreenData extends ChangeNotifier {
   ) {
     final screenSize = MediaQuery.of(context).size;
     if (snapshot!["isSpecies"]) {
+      // snapshot["species"]['imagesLink']
       return SingleChildScrollView(
           child: Center(
         child: Text("Hogaya"),
@@ -102,6 +103,7 @@ class SpeciesScreenData extends ChangeNotifier {
                     snapshot["isSpecies"] = true;
                     snapshot["species"] = {
                       "speciesList": decodedData["speciesList"],
+                      "imagesLinks": decodedData["imagesLink"]
                     };
                     notifyListeners();
                   }
