@@ -101,7 +101,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       description: 'Description Here',
                       additionalText: 'Additional Text Here',
                       MainTitle: "TREE REALLOCATION",
-                      onTap: () {}),
+                      onTap: () {
+                        
+                      }),
                 ],
               ),
               const SizedBox(height: 20),
