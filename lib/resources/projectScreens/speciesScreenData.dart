@@ -1,16 +1,19 @@
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:vanrakshak/resources/api/apiClass.dart';
+import 'package:vanrakshak/resources/api/apiResponse.dart';
 import 'package:vanrakshak/widgets/project/Species/CarouselCard.dart';
 import 'dart:io';
-
 import 'package:vanrakshak/widgets/project/Species/NotCompletedSpecies.dart';
 import 'package:vanrakshak/widgets/project/bulletPoint.dart';
 import 'package:vanrakshak/widgets/project/instructionsCard.dart';
 
 class SpeciesScreenData extends ChangeNotifier {
   bool loading = false;
+  ApiAddress apiAddress = ApiAddress();
 
   void uploadDroneVideo(String projectID) async {
     final operationImageRef = FirebaseStorage.instance
@@ -19,45 +22,45 @@ class SpeciesScreenData extends ChangeNotifier {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     File file = File(result!.files.single.path!);
 
-    try {
-      loading = true;
-      notifyListeners();
-      operationImageRef
-          .putFile(file)
-          .snapshotEvents
-          .listen((taskSnapshot) async {
-        switch (taskSnapshot.state) {
-          case TaskState.running:
-            // notifyListeners();
-            break;
-          case TaskState.paused:
-            // ...
-            break;
-          case TaskState.success:
-            String link = await operationImageRef.getDownloadURL();
-            FirebaseFirestore.instance
-                .collection("projects")
-                .doc(projectID)
-                .update({
-              "isSpecies": true,
-              "droneVideoLink": link,
-            });
-            loading = false;
-            notifyListeners();
-            break;
-          case TaskState.canceled:
-            loading = false;
-            notifyListeners();
-            break;
-          case TaskState.error:
-            loading = false;
-            notifyListeners();
-            break;
-        }
-      });
-    } on FirebaseException catch (e) {
-      print(e);
-    }
+    // try {
+    //   loading = true;
+    //   notifyListeners();
+    //   operationImageRef
+    //       .putFile(file)
+    //       .snapshotEvents
+    //       .listen((taskSnapshot) async {
+    //     switch (taskSnapshot.state) {
+    //       case TaskState.running:
+    //         // notifyListeners();
+    //         break;
+    //       case TaskState.paused:
+    //         // ...
+    //         break;
+    //       case TaskState.success:
+    //         String link = await operationImageRef.getDownloadURL();
+    //         FirebaseFirestore.instance
+    //             .collection("projects")
+    //             .doc(projectID)
+    //             .update({
+    //           "isSpecies": true,
+    //           "droneVideoLink": link,
+    //         });
+    //         loading = false;
+    //         notifyListeners();
+    //         break;
+    //       case TaskState.canceled:
+    //         loading = false;
+    //         notifyListeners();
+    //         break;
+    //       case TaskState.error:
+    //         loading = false;
+    //         notifyListeners();
+    //         break;
+    //     }
+    //   });
+    // } on FirebaseException catch (e) {
+    //   print(e);
+    // }
   }
 
   SingleChildScrollView speciesScreen(
@@ -72,30 +75,37 @@ class SpeciesScreenData extends ChangeNotifier {
         child: Text("Hogaya"),
       ));
     } else {
-      List<String> images = [
-        'https://example.com/image1.jpg',
-        'https://example.com/image2.jpg',
-        // Add more image URLs
-      ];
-
-      List<List<String>> details = [
-        ["Detail 1A", "Detail 1B", "Detail 1C", "Detail 1D"],
-        ["Detail 2A", "Detail 2B", "Detail 2C", "Detail 2D"],
-        // Add more details corresponding to each image
-      ];
-
       return SingleChildScrollView(
         child: Column(
           children: [
-            CarouselCard(imgList: images, details: details),
             SizedBox(height: 20),
             NotCompleteSpecies(
                 title: "YOO",
-                image: Image.asset('assets/project/projectTile25.png'),    
-                button1Text: "OHHH",
-                button2Text: "button2Text",
+                image: Image.asset('assets/project/projectTile25.png'),
+                button1Text: "DRONE IMAGE",
+                button2Text: "DRONE VIDEO",
                 onButton1Tap: () {},
-                onButton2Tap: () {}),
+                onButton2Tap: () async {
+                  uploadDroneVideo(projectID);
+                  loading = true;
+                  notifyListeners();
+                  String url =
+                      "http://${apiAddress.address}:5000/speciesDetection?ProjectID=$projectID";
+                  // "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
+
+                  Uri uri = Uri.parse(url);
+                  var data = await apiResponse(uri);
+                  var decodedData = jsonDecode(data);
+                  print(decodedData['result']);
+                  if (decodedData['result'] == "done") {
+                    loading = false;
+                    snapshot["isSpecies"] = true;
+                    snapshot["species"] = {
+                      "speciesList": decodedData["speciesList"],
+                    };
+                    notifyListeners();
+                  }
+                }),
             SizedBox(height: 20),
             Divider(
               color: Colors.black,

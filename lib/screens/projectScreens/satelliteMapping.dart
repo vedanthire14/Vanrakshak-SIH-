@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart' as googlemap;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as toolkit;
+import 'package:vanrakshak/resources/api/apiClass.dart';
 import 'package:vanrakshak/resources/api/apiResponse.dart';
 import 'package:vanrakshak/screens/projectScreens/projectMainScreen.dart';
 import 'package:vanrakshak/widgets/project/mappingScreen/locationInput.dart';
@@ -29,6 +30,7 @@ class MapScreenState extends State<MapScreen> {
   List<googlemap.LatLng> points = [];
   List<toolkit.LatLng> coordinates = [];
   bool loading = false;
+  ApiAddress apiAddress = ApiAddress();
 
   // bool _serviceEnabled = false;
   // Location location = Location();
@@ -334,7 +336,7 @@ class MapScreenState extends State<MapScreen> {
             setState(() {
               loading = true;
             });
-            url = "http://13.233.232.42:5000/satelliteimage?LatLong=";
+            url = "http://${apiAddress.address}:5000/satelliteimage?LatLong=";
             // url = "http://10.0.2.2:5000/satelliteimage?LatLong="; //For Emulator
             for (int i = 0; i < coordinates.length; i++) {
               if (i == coordinates.length - 1) {
