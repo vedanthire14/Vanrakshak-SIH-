@@ -99,13 +99,21 @@ class SpeciesScreenData extends ChangeNotifier {
                   var decodedData = jsonDecode(data);
                   print(decodedData['result']);
                   if (decodedData['result'] == "done") {
-                    loading = false;
                     snapshot["isSpecies"] = true;
                     snapshot["species"] = {
                       "speciesList": decodedData["speciesList"],
                       "imagesLinks": decodedData["imagesLink"]
                     };
-                    notifyListeners();
+                    FirebaseFirestore.instance
+                        .collection("projects")
+                        .doc(projectID)
+                        .update({
+                      "isSpecies": true,
+                      "species": snapshot["species"]
+                    }).then((value) {
+                      loading = false;
+                      notifyListeners();
+                    });
                   }
                 }),
             SizedBox(height: 20),

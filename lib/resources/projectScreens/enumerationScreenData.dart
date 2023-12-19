@@ -188,9 +188,28 @@ class EnumScreenData extends ChangeNotifier {
                 image: Image.asset('assets/project/projectTile25.png'),
                 MainTitle: "COMPLETE MAPPING FIRST",
               ),
+              SizedBox(height: 10),
+              Text("or"),
               SizedBox(
-                height: 20,
+                width: 250,
+                child: SizedBox(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 69, 170, 173),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            10.0), // Adjust the radius as needed
+                      ),
+                    ),
+                    onPressed: () async {
+                      
+                    },
+                    child: Text("UPLOAD IMAGE",
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
+                  ),
+                ),
               ),
+              SizedBox(height: 10),
               Divider(
                 color: Colors.black,
                 thickness: 1,
