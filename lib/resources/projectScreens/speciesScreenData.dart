@@ -65,16 +65,35 @@ class SpeciesScreenData extends ChangeNotifier {
 
   SingleChildScrollView speciesScreen(
     Map<String, dynamic>? snapshot,
+    
     BuildContext context,
     String projectID,
+
+
+    
+
   ) {
     final screenSize = MediaQuery.of(context).size;
     if (snapshot!["isSpecies"]) {
+      // print(snapshot["species"]);
+      List<List<String>> details = [
+        ["Detail 1A", "Detail 1B", "Detail 1C", "Detail 1D"],
+        ["Detail 2A", "Detail 2B", "Detail 2C", "Detail 2D"],
+        ["Detail 3A", "Detail 3B", "Detail 3C", "Detail 3D"],
+        ["Detail 4A", "Detail 4B", "Detail 4C", "Detail 4D"],
+        ["Detail 5A", "Detail 5B", "Detail 5C", "Detail 5D"],
+        
+        ];
+        // Add more details corresponding to each image
+
+      // print(snapshot["species"]['imagesLink']);
+      
       // snapshot["species"]['imagesLink']
       return SingleChildScrollView(
-          child: Center(
-        child: Text("Hogaya"),
-      ));
+        
+          child: Column(children: [
+            CarouselCard(imgList:snapshot["species"]['imagesLinks'] , details: details),
+          ]));
     } else {
       return SingleChildScrollView(
         child: Column(

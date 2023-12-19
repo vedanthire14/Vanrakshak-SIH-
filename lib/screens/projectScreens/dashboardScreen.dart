@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vanrakshak/screens/projectScreens/TerrainAnalysisPage.dart';
 import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
 import 'package:vanrakshak/widgets/Dashboard/areaCoordinateCard.dart';
 
@@ -68,7 +69,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       description: 'Description Here',
                       additionalText: 'Additional Text Here',
                       MainTitle: "TERRAIN ANALYSIS",
-                      onTap: () {}),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  TerrainAnalysis( projectTitle: "Nigru", location: "predefinedLocation", date: "predefinedDate", textTitle: "predefinedTextTitle",)));
+                      }),
                   DashboardCard(
                       title: "Trial",
                       image: Image.asset(
