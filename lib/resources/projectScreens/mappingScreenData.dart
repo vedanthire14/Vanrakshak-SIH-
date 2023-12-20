@@ -102,21 +102,30 @@ class MapScreenData extends ChangeNotifier {
                     //   Title: "LAT/LONG LIST: ",
                     //   Detail: snapshot["map"]["coordinatesList"].toString(),
                     // ),
-                    Container(
-                      height: 600,
-                      child: ListView.builder(
-                        itemCount: snapshot["map"]["coordinatesList"].length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: BulletPoint(
-                              Title: "",
-                              Detail: snapshot["map"]["coordinatesList"][index]
-                                  .toString(),
-                            ), // Displaying item at the current index
-                          );
-                        },
-                      ),
-                    ),
+                   Container(
+  height: 600, // Fixed height for the container
+  child: ListView.builder(
+    itemCount: snapshot["map"]["coordinatesList"].length,
+    itemBuilder: (context, index) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0), // Padding around each card
+        child: Card(
+          elevation: 4.0, // Shadow effect
+          child: ListTile(
+            title: Padding(
+              padding: const EdgeInsets.all(8.0), // Padding inside the card
+              child: BulletPoint(
+                Title: "", // Assuming Title is optional or not needed here
+                Detail: snapshot["map"]["coordinatesList"][index].toString(),
+              ),
+            ),
+          ),
+        ),
+      );
+    },
+  ),
+),
+
                   ],
                 ),
               ),
