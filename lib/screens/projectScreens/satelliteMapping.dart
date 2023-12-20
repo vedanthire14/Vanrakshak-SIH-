@@ -338,6 +338,24 @@ class MapScreenState extends State<MapScreen> {
               loading = true;
             });
 
+            String address = "";
+            final String url1 =
+                'https://maps.googleapis.com/maps/api/geocode/json?latlng=${calculateCenter(points).latitude},${calculateCenter(points).longitude}&key=AIzaSyC5QkMgaiQo3G7RH95BWJoqzWbKczWVCkU';
+
+            final response = await http.get(Uri.parse(url1));
+
+            if (response.statusCode == 200) {
+              var jsonResponse = jsonDecode(response.body);
+              if (jsonResponse['results'] != null &&
+                  jsonResponse['results'].length > 0) {
+                address = jsonResponse['results'][0]['formatted_address'];
+                print(address);
+              }
+            } else {
+              address = "Failed to get address";
+              print('Failed to get address');
+            }
+
             url = "http://${apiAddress.address}:5000/satelliteimage?LatLong=";
             // url = "http://10.0.2.2:5000/satelliteimage?LatLong="; //For Emulator
             for (int i = 0; i < coordinates.length; i++) {
@@ -388,7 +406,7 @@ class MapScreenState extends State<MapScreen> {
                     decodedData['satelliteImageNoPolygon'],
                 "elevationList": decodedData['elevationList'],
                 "zoomLevel": currentZoom,
-                "projectLocation": decodedData['locationFromLatLong'],
+                "projectLocation": address,
                 "neighbouringTiles": decodedData['neighboringTiles'],
               };
               await FirebaseFirestore.instance

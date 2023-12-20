@@ -91,7 +91,7 @@ class MapScreenData extends ChangeNotifier {
                     SizedBox(height: 10),
                     BulletPoint(
                       Title: "AREA NAME ",
-                      Detail: "${snapshot["location"]}",
+                      Detail: "${snapshot["map"]["projectLocation"]}",
                     ),
                     BulletPoint(
                       Title: "AREA VALUE: ",
@@ -100,7 +100,7 @@ class MapScreenData extends ChangeNotifier {
                     ),
                     BulletPoint(
                       Title: "LAT/LONG LIST: ",
-                      Detail: "123456",
+                      Detail: snapshot["map"]["coordinatesList"].toString(),
                     ),
                   ],
                 ),
