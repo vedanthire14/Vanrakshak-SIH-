@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:vanrakshak/ChatbotScreen/ChatBot.dart';
 import 'package:vanrakshak/ChatbotScreen/KmlFile.dart';
 import 'package:vanrakshak/ChatbotScreen/SmtpEmail.dart';
+import 'package:vanrakshak/ChatbotScreen/getlocation.dart';
 import 'package:vanrakshak/resources/authentication/loginAuthentication.dart';
 import 'package:vanrakshak/resources/authentication/signupAuthentication.dart';
 import 'package:vanrakshak/resources/mainScreenSetup/mainscreendata.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, userSnp) {
             if (userSnp.hasData) {
+              return Damnn();
               return MainScreen();
             }
             return LoginScreen();
