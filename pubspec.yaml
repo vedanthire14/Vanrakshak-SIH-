@@ -66,6 +66,7 @@ dependencies:
   mailer: ^6.0.1
   screenshot: ^2.1.0
   image_picker: ^1.0.5
+  geodesy: ^0.10.2
 
 dev_dependencies:
   flutter_test:
