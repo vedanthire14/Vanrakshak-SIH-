@@ -34,6 +34,7 @@ class _MainScreenState extends State<MainScreen> {
     BuildContext original = context;
     MainScreenSetup mainScreenSetup = Provider.of<MainScreenSetup>(context);
     return WillPopScope(
+      
       onWillPop: () {
         return Future.value(false);
       },
