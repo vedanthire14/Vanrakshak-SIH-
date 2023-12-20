@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, userSnp) {
             if (userSnp.hasData) {
-              return MainScreen();
+              return KMLFileUploadScreen();
             }
             return LoginScreen();
           },

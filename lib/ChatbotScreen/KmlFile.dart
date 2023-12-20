@@ -1,54 +1,45 @@
-import 'dart:convert';
-import 'dart:typed_data';
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:xml/xml.dart' as xml;
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:xml/xml.dart' as xml;
 
-class KMLMapScreen extends StatefulWidget {
+class KMLFileUploadScreen extends StatefulWidget {
   @override
-  _KMLMapScreenState createState() => _KMLMapScreenState();
+  _KMLFileUploadScreenState createState() => _KMLFileUploadScreenState();
 }
 
-class _KMLMapScreenState extends State<KMLMapScreen> {
-  List<String> kmlElements = [];
+class _KMLFileUploadScreenState extends State<KMLFileUploadScreen> {
+  List<LatLng> coordinates = [];
 
-  @override
-  void initState() {
-    super.initState();
-    // You can call _loadKMLFileAndDisplayContent() here if you want to load the file immediately
-  }
-
-  Future<void> _loadKMLFileAndDisplayContent() async {
+  Future<void> _pickAndParseKMLFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
-      Uint8List? fileBytes = result.files.single.bytes;
-      String fileContent;
-      if (fileBytes != null) {
-        fileContent = utf8.decode(fileBytes);
-      } else {
-        print('No file selected or file is not supported');
-        return;
-      }
+      String fileContent = String.fromCharCodes(result.files.single.bytes!);
       _parseKMLFile(fileContent);
-    } else {
-      print('File picking cancelled or failed');
     }
   }
 
   void _parseKMLFile(String kmlData) {
     var document = xml.XmlDocument.parse(kmlData);
-    List<String> elementsList = [];
     var placemarks = document.findAllElements('Placemark');
+
+    List<LatLng> fetchedCoordinates = [];
     for (var placemark in placemarks) {
-      elementsList.add(placemark.toXmlString(pretty: true, indent: '\t'));
+      var points = placemark.findAllElements('coordinates');
+      if (points.isNotEmpty) {
+        var coordString = points.first.text.trim();
+        var coordParts = coordString.split(',');
+        if (coordParts.length >= 2) {
+          double? lat = double.tryParse(coordParts[1]);
+          double? lon = double.tryParse(coordParts[0]);
+          if (lat != null && lon != null) {
+            fetchedCoordinates.add(LatLng(lat, lon));
+          }
+        }
+      }
     }
+
     setState(() {
-      kmlElements = elementsList;
+      coordinates = fetchedCoordinates;
     });
   }
 
@@ -56,21 +47,28 @@ class _KMLMapScreenState extends State<KMLMapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('KML File Contents'),
+        title: Text('KML File Upload and Parse'),
       ),
       body: ListView.builder(
-        itemCount: kmlElements.length,
+        itemCount: coordinates.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text('Element $index'),
-            subtitle: Text(kmlElements[index]),
+            title: Text('Coordinate ${index + 1}'),
+            subtitle: Text('Latitude: ${coordinates[index].latitude}, Longitude: ${coordinates[index].longitude}'),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _loadKMLFileAndDisplayContent,
+        onPressed: _pickAndParseKMLFile,
         child: Icon(Icons.file_upload),
       ),
     );
   }
+}
+
+class LatLng {
+  final double latitude;
+  final double longitude;
+
+  LatLng(this.latitude, this.longitude);
 }
