@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:vanrakshak/resources/api/apiClass.dart';
+import 'package:vanrakshak/resources/api/apiResponse.dart';
 import 'package:xml/xml.dart' as xml;
+import 'package:maps_toolkit/maps_toolkit.dart' as toolkit;
 
 class KMLFileUploadScreen extends StatefulWidget {
   @override
@@ -9,16 +14,29 @@ class KMLFileUploadScreen extends StatefulWidget {
 
 class _KMLFileUploadScreenState extends State<KMLFileUploadScreen> {
   List<LatLng> coordinates = [];
+  ApiAddress apiAddress = ApiAddress();
+
+  // Future<void> _pickAndParseKMLFile() async {
+  //   FilePickerResult? result = await FilePicker.platform.pickFiles();
+  //   if (result != null) {
+  //     String fileContent = String.fromCharCodes(result.files.single.bytes!);
+  //     _parseKMLFile(fileContent);
+  //   }
+  // }
 
   Future<void> _pickAndParseKMLFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
+
+    if (result != null && result.files.single.bytes != null) {
       String fileContent = String.fromCharCodes(result.files.single.bytes!);
       _parseKMLFile(fileContent);
+    } else {
+      // Handle the situation when bytes are null or no file is picked
+      print("No file selected or file is empty");
     }
   }
 
-  void _parseKMLFile(String kmlData) {
+  void _parseKMLFile(String kmlData) async {
     var document = xml.XmlDocument.parse(kmlData);
     var placemarks = document.findAllElements('Placemark');
 
@@ -37,10 +55,27 @@ class _KMLFileUploadScreenState extends State<KMLFileUploadScreen> {
         }
       }
     }
+    coordinates = fetchedCoordinates;
+    String url = "http://${apiAddress.address}:5000/satelliteimage?LatLong=";
+    for (int i = 0; i < coordinates.length; i++) {
+      if (i == coordinates.length - 1) {
+        url += "${coordinates[i].latitude},${coordinates[i].longitude}";
+      } else {
+        url += "${coordinates[i].latitude},${coordinates[i].longitude},";
+      }
+      print("randh");
+    }
+    url += "&ProjectID=989898989898989";
 
-    setState(() {
-      coordinates = fetchedCoordinates;
-    });
+    url += "&zoomlevel=16";
+    Uri uri = Uri.parse(url);
+    print(uri);
+    var jsonData = await apiResponse(uri);
+    var decodedData = jsonDecode(jsonData);
+
+    // setState(() {
+    //   coordinates = fetchedCoordinates;
+    // });
   }
 
   @override
@@ -49,15 +84,23 @@ class _KMLFileUploadScreenState extends State<KMLFileUploadScreen> {
       appBar: AppBar(
         title: Text('KML File Upload and Parse'),
       ),
-      body: ListView.builder(
-        itemCount: coordinates.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('Coordinate ${index + 1}'),
-            subtitle: Text('Latitude: ${coordinates[index].latitude}, Longitude: ${coordinates[index].longitude}'),
-          );
-        },
-      ),
+      body: Stack(children: [
+        ListView.builder(
+          itemCount: coordinates.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text('Coordinate ${index + 1}'),
+              subtitle: Text(
+                  'Latitude: ${coordinates[index].latitude}, Longitude: ${coordinates[index].longitude}'),
+            );
+          },
+        ),
+        Positioned(
+            child: ElevatedButton(
+          child: Text("Database"),
+          onPressed: () {},
+        ))
+      ]),
       floatingActionButton: FloatingActionButton(
         onPressed: _pickAndParseKMLFile,
         child: Icon(Icons.file_upload),
