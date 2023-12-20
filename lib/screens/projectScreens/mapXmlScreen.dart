@@ -79,33 +79,57 @@ class MapXmlScreenState extends State<MapXmlScreen> {
 
   @override
   void initState() {
+    super.initState();
     _controller = Completer<googlemap.GoogleMapController>();
-    // getLocation();
-    // locationSubscription =
-    //     Location().onLocationChanged.listen((LocationData locationData) {
-    //   setState(() {
-    //     _locationData = locationData;
-    //     loading = false;
-    //   });
-    // });
+    initializeMarkers();
+  }
+
+  void initializeMarkers() {
+    Set<googlemap.Marker> newMarkers = {};
     for (int i = 0; i < coordinatesData.coordinates.length; i++) {
-      setState(() {
-        _marker.add(googlemap.Marker(
-          markerId: googlemap.MarkerId(i.toString()),
-          position: LatLng(coordinatesData.coordinates["point$i"]![0],
-              coordinatesData.coordinates["point$i"]![1]),
-          icon: googlemap.BitmapDescriptor.defaultMarkerWithHue(
-              googlemap.BitmapDescriptor.hueGreen),
-        ));
-      });
-      print(_marker);
+      newMarkers.add(googlemap.Marker(
+        markerId: googlemap.MarkerId(i.toString()),
+        position: LatLng(coordinatesData.coordinates["point$i"]![0],
+            coordinatesData.coordinates["point$i"]![1]),
+        icon: googlemap.BitmapDescriptor.defaultMarkerWithHue(
+            googlemap.BitmapDescriptor.hueGreen),
+      ));
     }
     setState(() {
+      _marker = newMarkers;
       loading = false;
     });
-
-    super.initState();
   }
+
+  // @override
+  // void initState() {
+  //   _controller = Completer<googlemap.GoogleMapController>();
+  //   // getLocation();
+  //   // locationSubscription =
+  //   //     Location().onLocationChanged.listen((LocationData locationData) {
+  //   //   setState(() {
+  //   //     _locationData = locationData;
+  //   //     loading = false;
+  //   //   });
+  //   // });
+  //   for (int i = 0; i < coordinatesData.coordinates.length; i++) {
+  //     setState(() {
+  //       _marker.add(googlemap.Marker(
+  //         markerId: googlemap.MarkerId(i.toString()),
+  //         position: LatLng(coordinatesData.coordinates["point$i"]![0],
+  //             coordinatesData.coordinates["point$i"]![1]),
+  //         icon: googlemap.BitmapDescriptor.defaultMarkerWithHue(
+  //             googlemap.BitmapDescriptor.hueGreen),
+  //       ));
+  //     });
+  //     print(_marker);
+  //   }
+  //   setState(() {
+  //     loading = false;
+  //   });
+
+  //   super.initState();
+  // }
 
   // @override
   // void dispose() {
