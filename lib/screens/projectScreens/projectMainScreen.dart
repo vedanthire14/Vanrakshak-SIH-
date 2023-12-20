@@ -184,7 +184,9 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
                 context,
                 widget.projectID,
               ),
-        isMapDataFulfilled ? const DashBoardScreen() : _disabledTabContent(),
+        isMapDataFulfilled
+            ? DashBoardScreen(projectID: widget.projectID)
+            : _disabledTabContent(),
       ],
     );
   }
