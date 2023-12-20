@@ -190,7 +190,7 @@ class MapScreenData extends ChangeNotifier {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => MapXmlScreen(
+                            builder: (context) => MapScreen(
                                   projectID: projectID,
                                 )),
                       );

@@ -63,16 +63,32 @@ class _KMLFileUploadScreenState extends State<KMLFileUploadScreen> {
       } else {
         url += "${coordinates[i].latitude},${coordinates[i].longitude},";
       }
-      print("randh");
     }
     url += "&ProjectID=989898989898989";
 
-    url += "&zoomlevel=16";
+    url += "&zoomlevel=16&xml=yes";
     Uri uri = Uri.parse(url);
     print(uri);
     var jsonData = await apiResponse(uri);
     var decodedData = jsonDecode(jsonData);
+    print(decodedData["finalList"]);
+    // List<double> finalList = decodedData["finalList"];
+    List<dynamic> finalList = decodedData["finalList"];
+    // .map((value) =>
+    //     value is double ? value : double.tryParse(value.toString()) ?? 0.0)
+    // .toList();
+    List<toolkit.LatLng> listy = [];
+    for (int i = 0; i < finalList.length; i += 2) {
+      double lat = finalList[i];
+      double lon = finalList[i + 1];
+      listy.add(toolkit.LatLng(lat, lon));
+    }
 
+    var areaInSquareMeters =
+        toolkit.SphericalUtil.computeArea(listy.cast<toolkit.LatLng>());
+    var areaAcres = areaInSquareMeters / 4046.85642 / 2.5;
+
+    print(areaAcres);
     // setState(() {
     //   coordinates = fetchedCoordinates;
     // });
