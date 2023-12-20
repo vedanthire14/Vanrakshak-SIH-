@@ -98,9 +98,24 @@ class MapScreenData extends ChangeNotifier {
                       Detail:
                           "${snapshot["map"]["areaMeters"].toStringAsFixed(2)} m2",
                     ),
-                    BulletPoint(
-                      Title: "LAT/LONG LIST: ",
-                      Detail: snapshot["map"]["coordinatesList"].toString(),
+                    // BulletPoint(
+                    //   Title: "LAT/LONG LIST: ",
+                    //   Detail: snapshot["map"]["coordinatesList"].toString(),
+                    // ),
+                    Container(
+                      height: 600,
+                      child: ListView.builder(
+                        itemCount: snapshot["map"]["coordinatesList"].length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: BulletPoint(
+                              Title: "",
+                              Detail: snapshot["map"]["coordinatesList"][index]
+                                  .toString(),
+                            ), // Displaying item at the current index
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
