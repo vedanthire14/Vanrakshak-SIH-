@@ -53,6 +53,9 @@ class MapImageCard extends StatelessWidget {
                     height: 270,
                     width: double.infinity,
                     fit: BoxFit.fill,
+                     errorBuilder: (context, error, stackTrace) {
+    return Text('Unable to load image');
+  },
                   ),
                 ),
               ),

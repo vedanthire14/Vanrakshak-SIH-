@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vanrakshak/widgets/Dashboard/DashBoardFinal.dart';
+import 'package:vanrakshak/widgets/project/bulletPoint.dart';
 
 class TerrainAnalysis extends StatelessWidget {
   final String projectTitle;
@@ -17,60 +19,36 @@ class TerrainAnalysis extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color bgColor = const Color.fromARGB(255, 39, 159, 130);
     final Color frontColor = const Color.fromARGB(255, 239, 248, 222);
-    final Color tealColor = Colors.teal; // Define teal color
+    final Color tealColor = Colors.teal;
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(150.0), // Increase the height of the AppBar
-        child: AppBar(
-          backgroundColor: bgColor,
-          title: Align(
-            alignment: Alignment.center, // Center align the text
+      appBar: AppBar(
+        backgroundColor: bgColor,
+        title: Text(
+          projectTitle,
+          style: TextStyle(color: frontColor, fontSize: 24.0, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  height: 28, // Specify a height for the projectTitle
-                  child: Text(
-                    projectTitle,
-                    style: TextStyle(
-                      color: frontColor,
-                      fontSize: 28.0, // Increase the font size     
-                    ),
-                  ),
+                Text(
+                  location,
+                  style: TextStyle(color: frontColor, fontSize: 18.0),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 15, // Specify a height for the location
-                      child: Text(
-                        location,
-                        style: TextStyle(
-                          color: frontColor,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 20, // Specify a height for the date
-                      child: Text(
-                        date,
-                        style: TextStyle(
-                          color: frontColor,
-                          fontSize: 16.0,
-                        ),
-                      ),
-                    ),
-                  ]
+                
+                Text(
+                  date,
+                  style: TextStyle(color: frontColor, fontSize: 16.0),
                 ),
-                SizedBox(height: 20),
               ],
             ),
           ),
-          centerTitle: true,
-          automaticallyImplyLeading: false, // Remove back button
         ),
+        automaticallyImplyLeading: false, // Remove back button
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -78,26 +56,32 @@ class TerrainAnalysis extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 16), // Add spacing between AppBar and image
+              SizedBox(height: 16),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 height: 150,
-                width: 60, // Adjust width as needed
+                width: 60,
                 child: Image.asset(
                   "assets/project/dashboard4.png",
-                  fit: BoxFit.contain, // Changed to BoxFit.contain
+                  fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(height: 10), // Spacing between image and title
+              SizedBox(height: 10),
               Text(
                 textTitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: tealColor, // Use teal color for text
-                  fontSize: 20.0, // Adjust font size as needed
+                  color: tealColor,
+                  fontSize: 20.0,
                 ),
               ),
-              // Add other content here...
+              SizedBox(height: 10),
+              Divider( color: tealColor, ),
+              SizedBox( height: 10, ),
+
+               DashBoardFinalCardd(titles: ["Ok", "OK", "Ok"], details: ["Ok", "OK", "Ok"], coordinates: ["123456", "123456", "123456","123456"]),
+
+
             ],
           ),
         ),

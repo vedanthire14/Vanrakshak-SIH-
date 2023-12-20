@@ -10,7 +10,7 @@ class ChatBotScreen extends StatefulWidget {
 class _ChatBotScreenState extends State<ChatBotScreen> {
   final messageInsert = TextEditingController();
   List<Map> messsages = [
-    {"data": 1, "message": "Hi, how can I help you?"}
+    // {"data": 1, "message": "Hi, how can I help you?"}
   ];
 
   void response(query) async {
@@ -103,30 +103,34 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
   }
 
   Widget buildPredefinedQuestionButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        ElevatedButton(
-          onPressed: () => sendMessage("Chinmay"),
-          child: Text("Chinmay"),
-        ),
-        ElevatedButton(
-          onPressed: () => sendMessage("Hello"),
-          child: Text("Hello"),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: () => sendMessage("What is Vanrakshak?"),
+            child: Text("What is Vanrakshak?"),
+          ),
+          ElevatedButton(
+            onPressed: () => sendMessage("Hello"),
+            child: Text("Hello"),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget chat(String message, int data) {
+   Widget chat(String message, int data) {
     return Container(
-      padding: EdgeInsets.only(left: 14, right: 14),
+      padding: EdgeInsets.only(left: 14, right: 14, top: 5, bottom: 5),
       child: Row(
         mainAxisAlignment:
             data == 1 ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
           Flexible(
             child: Container(
+              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7), // Set max width for messages
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: data == 1 ? Colors.blue : Colors.grey.shade200,
@@ -142,4 +146,5 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
       ),
     );
   }
+
 }
