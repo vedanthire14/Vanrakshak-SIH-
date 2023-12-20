@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vanrakshak/screens/projectScreens/TerrainAnalysisPage.dart';
-import 'package:vanrakshak/screens/projectScreens/treeReallocationScreen.dart';
+import 'package:vanrakshak/widgets/treeReallocationScreen.dart';
 import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
 import 'package:vanrakshak/widgets/Dashboard/areaCoordinateCard.dart';
 

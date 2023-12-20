@@ -199,6 +199,22 @@ class MapScreenData extends ChangeNotifier {
                         style: TextStyle(color: Colors.white)),
                   ),
                 ),
+                // SizedBox(height: 20),
+                // SizedBox(
+                //   width: 250,
+                //   child: ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //       backgroundColor: Color.fromARGB(255, 69, 170, 173),
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(
+                //             10.0), // Adjust the radius as needed
+                //       ),
+                //     ),
+                //     onPressed: () {},
+                //     child: Text("UPLOAD KML",
+                //         style: TextStyle(color: Colors.white)),
+                //   ),
+                // ),
                 SizedBox(
                   height: 20,
                 ),

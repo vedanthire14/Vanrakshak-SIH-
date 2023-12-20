@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vanrakshak/ChatbotScreen/KmlFile.dart';
 import 'package:vanrakshak/resources/projectScreens/enumerationScreenData.dart';
 import 'package:vanrakshak/resources/projectScreens/mappingScreenData.dart';
 import 'package:vanrakshak/resources/projectScreens/speciesScreenData.dart';
@@ -154,7 +155,7 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
             tabs: const [
               Tab(text: "Map"),
               Tab(text: "Enum"),
-              Tab(text: "Species"),
+              Tab(text: "Kml"),
               Tab(text: "Report"),
             ],
             labelStyle: const TextStyle(fontSize: 14),
@@ -177,13 +178,7 @@ class _ProjectMainScreenState extends State<ProjectMainScreen> {
             ? Container()
             : enumScreenData.enumScreen(
                 projectDetails, context, widget.projectID),
-        (loading)
-            ? Container()
-            : speciesScreenData.speciesScreen(
-                projectDetails,
-                context,
-                widget.projectID,
-              ),
+        (loading) ? Container() : KMLFileUploadScreen(),
         isMapDataFulfilled
             ? DashBoardScreen(projectID: widget.projectID)
             : _disabledTabContent(),
