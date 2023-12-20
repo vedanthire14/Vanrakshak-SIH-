@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vanrakshak/screens/projectScreens/mapXmlScreen.dart';
 import 'package:vanrakshak/screens/projectScreens/satelliteMapping.dart';
 import 'package:vanrakshak/widgets/project/NotCompleteCard.dart';
 import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
@@ -169,7 +170,7 @@ class MapScreenData extends ChangeNotifier {
                   child: NotCompleteCard(
                     title:
                         "A SATELLITE IMAGE IS REQUIRED TO GET THE CONSTRUCTION POLYGON AND PERFORM TREE ENUMERATION IN THE GIVEN AREA",
-                    image: Image.asset('assets/project/dashboard1.png'),
+                    image: Image.asset('assets/project/projectTile25.png'),
                     MainTitle: "GOOGLE MAPS INTEGRATED",
                   ),
                 ),
@@ -189,10 +190,9 @@ class MapScreenData extends ChangeNotifier {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => MapScreen(
-                            projectID: projectID,
-                          ),
-                        ),
+                            builder: (context) => MapXmlScreen(
+                                  projectID: projectID,
+                                )),
                       );
                     },
                     child: Text("OPEN MAPS",

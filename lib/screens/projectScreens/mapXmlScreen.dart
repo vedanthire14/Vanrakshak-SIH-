@@ -12,54 +12,26 @@ import 'package:location/location.dart';
 import 'package:maps_toolkit/maps_toolkit.dart' as toolkit;
 import 'package:vanrakshak/resources/api/apiClass.dart';
 import 'package:vanrakshak/resources/api/apiResponse.dart';
+import 'package:vanrakshak/resources/coordinates.dart';
 import 'package:vanrakshak/screens/projectScreens/projectMainScreen.dart';
 import 'package:vanrakshak/widgets/project/mappingScreen/locationInput.dart';
 
-class MapScreen extends StatefulWidget {
+class MapXmlScreen extends StatefulWidget {
   final String projectID;
 
-  const MapScreen({super.key, required this.projectID});
+  const MapXmlScreen({super.key, required this.projectID});
 
   @override
-  State<MapScreen> createState() => MapScreenState();
+  State<MapXmlScreen> createState() => MapXmlScreenState();
 }
 
-class MapScreenState extends State<MapScreen> {
+class MapXmlScreenState extends State<MapXmlScreen> {
   String url = "http://10.0.2.2:5000/satelliteimage?LatLong=";
   final Set<googlemap.Marker> _markers = {};
   List<googlemap.LatLng> points = [];
   List<toolkit.LatLng> coordinates = [];
-  bool loading = false;
+  bool loading = true;
   ApiAddress apiAddress = ApiAddress();
-
-  // bool _serviceEnabled = false;
-  // Location location = Location();
-  // PermissionStatus _permissionGranted = PermissionStatus.denied;
-  // //LocationData _locationData = LocationData.fromMap({'latitude': 37.4219999, 'longitude': -122.0840575});
-  // LocationData? _locationData;
-  // StreamSubscription<LocationData>? locationSubscription;
-  // bool _isListenLocation = false;
-  // bool _isGetLocation = false;
-
-  // Future<dynamic> getLocation() async {
-  //   _serviceEnabled = await location.serviceEnabled();
-  //   if (!_serviceEnabled) {
-  //     _serviceEnabled = await location.requestService();
-  //     if (!_serviceEnabled) {
-  //       return null;
-  //     }
-  //   }
-
-  //   _permissionGranted = await location.hasPermission();
-  //   if (_permissionGranted == PermissionStatus.denied) {
-  //     _permissionGranted = await location.requestPermission();
-  //     if (_permissionGranted != PermissionStatus.granted) {
-  //       return null;
-  //     }
-  //   }
-
-  //   _locationData = await location.getLocation();
-  // }
 
   double currentZoom = 15;
   void onCameraMove(CameraPosition position) {
@@ -69,7 +41,6 @@ class MapScreenState extends State<MapScreen> {
         currentZoom = 15;
       }
     });
-    // print('Current Zoom: $currentZoom');
   }
 
   Set<googlemap.Polygon> _polygon = HashSet<googlemap.Polygon>();
@@ -77,7 +48,8 @@ class MapScreenState extends State<MapScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   static const googlemap.CameraPosition _kGooglePlex = googlemap.CameraPosition(
-    target: googlemap.LatLng(25.50439667, 91.5808381),
+    target: googlemap.LatLng(22.861944, 82.308611),
+    // target: googlemap.LatLng(25.50439667, 91.5808381),
     zoom: 15,
     bearing: 45,
   );
@@ -103,6 +75,8 @@ class MapScreenState extends State<MapScreen> {
   Completer<googlemap.GoogleMapController> _controller =
       Completer<googlemap.GoogleMapController>();
 
+  CoordinatesData coordinatesData = CoordinatesData();
+
   @override
   void initState() {
     _controller = Completer<googlemap.GoogleMapController>();
@@ -114,6 +88,22 @@ class MapScreenState extends State<MapScreen> {
     //     loading = false;
     //   });
     // });
+    for (int i = 0; i < coordinatesData.coordinates.length; i++) {
+      setState(() {
+        _marker.add(googlemap.Marker(
+          markerId: googlemap.MarkerId(i.toString()),
+          position: LatLng(coordinatesData.coordinates["point$i"]![0],
+              coordinatesData.coordinates["point$i"]![1]),
+          icon: googlemap.BitmapDescriptor.defaultMarkerWithHue(
+              googlemap.BitmapDescriptor.hueGreen),
+        ));
+      });
+      print(_marker);
+    }
+    setState(() {
+      loading = false;
+    });
+
     super.initState();
   }
 

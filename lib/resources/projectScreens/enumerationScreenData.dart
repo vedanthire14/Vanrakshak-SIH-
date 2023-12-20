@@ -151,9 +151,19 @@ class EnumScreenData extends ChangeNotifier {
                         onPressed: () async {
                           loading = true;
                           notifyListeners();
+                          String url;
+                          if (snapshot["title"] == 'validation') {
+                            url =
+                                // "http://${apiAddress.address}:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
+                                "http://${apiAddress.address}:5000/treeEnumerationn?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
+                          } else if (snapshot["title"] == 'dense') {
+                            url =
+                                "http://${apiAddress.address}:5000/treeEnumerationd?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
+                          } else {
+                            url =
+                                "http://${apiAddress.address}:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
+                          }
 
-                          String url =
-                              "http://${apiAddress.address}:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
                           // "http://10.0.2.2:5000/treeEnumeration?ProjectID=$projectID&imageLink=${snapshot["map"]["satelliteImageWithNoPolygon"]}";
 
                           Uri uri = Uri.parse(url);

@@ -57,8 +57,7 @@ class MyApp extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, userSnp) {
             if (userSnp.hasData) {
-              return TerrainAnalysis(projectTitle: "projectTitle", location: "location", date: "date", textTitle: "textTitle");
-              // return TerrainAnalysis(projectTitle: "Allah hu", location: "location", date: "date", textTitle: "textTitle");
+              return MainScreen();
             }
             return MyLiquidSwipe();
           },

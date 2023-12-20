@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vanrakshak/screens/projectScreens/TerrainAnalysisPage.dart';
+import 'package:vanrakshak/screens/projectScreens/treeReallocationScreen.dart';
 import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
 import 'package:vanrakshak/widgets/Dashboard/areaCoordinateCard.dart';
 
 class DashBoardScreen extends StatefulWidget {
-  const DashBoardScreen({super.key});
+  final String projectID;
+  const DashBoardScreen({super.key, required this.projectID});
 
   @override
   State<DashBoardScreen> createState() => _DashBoardScreenState();
@@ -64,14 +66,25 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               Row(
                 children: [
                   DashboardCard(
-                      title: "Trial",
-                      image: Image.asset('assets/project/dashboard1.png'),
-                      description: 'Description Here',
-                      additionalText: 'Additional Text Here',
-                      MainTitle: "TERRAIN ANALYSIS",
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) =>  TerrainAnalysis( projectTitle: "Nigru", location: "predefinedLocation", date: "predefinedDate", textTitle: "predefinedTextTitle",)));
-                      }),
+                    title: "Trial",
+                    image: Image.asset('assets/project/dashboard1.png'),
+                    description: 'Description Here',
+                    additionalText: 'Additional Text Here',
+                    MainTitle: "TERRAIN ANALYSIS",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TerrainAnalysis(
+                            projectTitle: "Nigru",
+                            location: "predefinedLocation",
+                            date: "predefinedDate",
+                            textTitle: "predefinedTextTitle",
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                   DashboardCard(
                       title: "Trial",
                       image: Image.asset(
@@ -105,7 +118,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       additionalText: 'Additional Text Here',
                       MainTitle: "TREE REALLOCATION",
                       onTap: () {
-                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TreeReallocation(
+                              projectTitle: "Nigru",
+                              location: "predefinedLocation",
+                              date: "predefinedDate",
+                              textTitle: "predefinedTextTitle",
+                              projectID: widget.projectID,
+                            ),
+                          ),
+                        );
                       }),
                 ],
               ),
