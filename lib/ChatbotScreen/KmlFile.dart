@@ -15,6 +15,8 @@ class KMLFileUploadScreen extends StatefulWidget {
 class _KMLFileUploadScreenState extends State<KMLFileUploadScreen> {
   List<LatLng> coordinates = [];
   ApiAddress apiAddress = ApiAddress();
+  var areaAcres = 0.0;
+  String image = "";
 
   // Future<void> _pickAndParseKMLFile() async {
   //   FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -74,6 +76,7 @@ class _KMLFileUploadScreenState extends State<KMLFileUploadScreen> {
     print(decodedData["finalList"]);
     // List<double> finalList = decodedData["finalList"];
     List<dynamic> finalList = decodedData["finalList"];
+
     // .map((value) =>
     //     value is double ? value : double.tryParse(value.toString()) ?? 0.0)
     // .toList();
@@ -86,9 +89,14 @@ class _KMLFileUploadScreenState extends State<KMLFileUploadScreen> {
 
     var areaInSquareMeters =
         toolkit.SphericalUtil.computeArea(listy.cast<toolkit.LatLng>());
-    var areaAcres = areaInSquareMeters / 4046.85642 / 2.5;
+
+    setState(() {
+      areaAcres = areaInSquareMeters / 4046.85642 / 2.5;
+      image = decodedData['satelliteImageUnmasked'];
+    });
 
     print(areaAcres);
+
     // setState(() {
     //   coordinates = fetchedCoordinates;
     // });
@@ -111,11 +119,8 @@ class _KMLFileUploadScreenState extends State<KMLFileUploadScreen> {
             );
           },
         ),
-        Positioned(
-            child: ElevatedButton(
-          child: Text("Database"),
-          onPressed: () {},
-        ))
+        (areaAcres == 0) ? Text("") : Text("Area : " + areaAcres.toString()),
+        // (image == "") ? Text("") : Image.network(image),
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: _pickAndParseKMLFile,

@@ -32,9 +32,9 @@ class ProjectCard extends StatelessWidget {
       progress >= 75 ? 1.0 : 0.0,
       progress >= 100 ? 1.0 : 0.0,
     ];
-final double cardWidth = kIsWeb
+    final double cardWidth = kIsWeb
         ? MediaQuery.of(context).size.width * 0.6
-        : MediaQuery.of(context).size.width * 0.6;
+        : MediaQuery.of(context).size.width * 0.8;
     return Container(
       width: cardWidth,
       margin: const EdgeInsets.all(16.0),
