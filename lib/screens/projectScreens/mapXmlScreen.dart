@@ -27,7 +27,15 @@ class MapXmlScreen extends StatefulWidget {
 
 class MapXmlScreenState extends State<MapXmlScreen> {
   String url = "http://10.0.2.2:5000/satelliteimage?LatLong=";
-  final Set<googlemap.Marker> _markers = {};
+  // [[, ], [82.3203963196874, 22.8713238096659], [82.3212116926528, 22.8707876906558], [82.3140038381321, 22.8489766992725], [82.3022869290099, 22.855843502237], [82.2986017721696, 22.86258336199], [82.2974133817777, 22.8653924457268], [82.2971921848422, 22.8660389475436], [82.2999749426897, 22.8683265862062], [82.3000873158207, 22.8684160868209], [82.3066694210779, 22.8709948934586]]
+  final Set<googlemap.Marker> _markers = {
+    googlemap.Marker(
+      markerId: const googlemap.MarkerId('1'),
+      position: const LatLng(22.8709948934586, 82.3066694210779),
+      icon: googlemap.BitmapDescriptor.defaultMarkerWithHue(
+          googlemap.BitmapDescriptor.hueGreen),
+    ),
+  };
   List<googlemap.LatLng> points = [];
   List<toolkit.LatLng> coordinates = [];
   bool loading = true;
@@ -44,6 +52,7 @@ class MapXmlScreenState extends State<MapXmlScreen> {
   }
 
   Set<googlemap.Polygon> _polygon = HashSet<googlemap.Polygon>();
+  // [[82.3066694210779, 22.8709948934586], [82.3203963196874, 22.8713238096659], [82.3212116926528, 22.8707876906558], [82.3140038381321, 22.8489766992725], [82.3022869290099, 22.855843502237], [82.2986017721696, 22.86258336199], [82.2974133817777, 22.8653924457268], [82.2971921848422, 22.8660389475436], [82.2999749426897, 22.8683265862062], [82.3000873158207, 22.8684160868209], [82.3066694210779, 22.8709948934586]]
   Set<googlemap.Marker> _marker = HashSet<googlemap.Marker>();
   final TextEditingController _searchController = TextEditingController();
 

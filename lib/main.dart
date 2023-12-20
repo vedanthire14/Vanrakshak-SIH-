@@ -61,6 +61,7 @@ class MyApp extends StatelessWidget {
           builder: (context, userSnp) {
             if (userSnp.hasData) {
               return Damnn();
+              return MainScreen();
             }
             return LoginScreen();
           },
