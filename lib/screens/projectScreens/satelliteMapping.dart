@@ -371,7 +371,7 @@ class MapScreenState extends State<MapScreen> {
                 toolkit.SphericalUtil.computeArea(coordinates);
             var areaAcres = areaInSquareMeters / 4046.85642;
 
-            url += "&zoomlevel=$currentZoom";
+            url += "&zoomlevel=$currentZoom&xml=no";
             Uri uri = Uri.parse(url);
             // print(uri);
             var jsonData = await apiResponse(uri);
